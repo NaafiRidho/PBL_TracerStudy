@@ -20,6 +20,7 @@
         <p><strong>Daftar Profesi</strong></p>
         <p>Berikut adalah daftar profesi yang tersedia. Anda dapat mengimpor, mengekspor, dan menambah profesi baru menggunakan tombol di atas.</p>
 
+        <div class="table-responsive">
         <table class="table table-bordered table-striped table-hover table-sm" id="table_user">
             <thead>
                 <tr>
