@@ -2,13 +2,11 @@
 
 @section('content')
 <div class="card card-outline card-primary">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h3 class="card-title">Dashboard</h3>
-        <div class="card-tools d-flex justify-content-end gap-2">
-            <button onclick="modalAction('{{ url('admin/create_ajax') }}')" class="btn btn-success btn-sm mt-1" title="Tambah Profesi Baru">
-                <i class="fa fa-plus"></i> Tambah Profesi
-            </button>
-        </div>
+    <div class="card-header d-flex justify-content-between align-items-center bg-white border-bottom">
+        <h3 class="card-title text-primary m-0"><i class="fas fa-briefcase me-2"></i>Daftar Profesi</h3>
+        <button onclick="modalAction('{{ url('admin/create_ajax') }}')" class="btn btn-success btn-sm" title="Tambah Profesi Baru">
+            <i class="fas fa-plus-circle me-1"></i> Tambah Profesi
+        </button>
     </div>
 
     <div class="card-body">
