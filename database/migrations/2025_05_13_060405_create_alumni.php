@@ -13,23 +13,23 @@ return new class extends Migration
     {
         Schema::create('alumni', function (Blueprint $table) {
             $table->id('alumni_id');
-            $table->unsignedBigInteger('user_id')->index();
-            $table->unsignedBigInteger('atasan_id')->index();
-            $table->unsignedBigInteger('jenis_instansi_id')->index();
-            $table->unsignedBigInteger('kategori_profesi_id')->index();
-            $table->unsignedBigInteger('profesi_id')->index();
-            $table->string('nim',100);
-            $table->string('nama_alumni');
-            $table->string('prodi',100);
-            $table->string('no_hp');
-            $table->string('email');
-            $table->date('tanggal_lulus');
-            $table->date('tanggal_kerja_pertama');
-            $table->unsignedBigInteger('masa_tunggu');
-            $table->date('tanggal_mulai_instansi');
-            $table->string('nama_instansi');
-            $table->enum('skala_instansi',['international','nasional','wirausaha']);
-            $table->string('lokasi_instansi');
+            $table->unsignedBigInteger('user_id')->nullable()->index();
+            $table->unsignedBigInteger('atasan_id')->nullable()->index();
+            $table->unsignedBigInteger('jenis_instansi_id')->nullable()->index();
+            $table->unsignedBigInteger('kategori_profesi_id')->nullable()->index();
+            $table->unsignedBigInteger('profesi_id')->nullable()->index();
+            $table->string('nim',100)->nullable();
+            $table->string('nama_alumni')->nullable();
+            $table->string('prodi',100)->nullable();
+            $table->string('no_hp')->nullable();
+            $table->string('email')->nullable();
+            $table->date('tanggal_lulus')->nullable();
+            $table->date('tanggal_kerja_pertama')->nullable();
+            $table->unsignedBigInteger('masa_tunggu')->nullable();
+            $table->date('tanggal_mulai_instansi')->nullable();
+            $table->string('nama_instansi')->nullable();
+            $table->enum('skala_instansi',['international','nasional','wirausaha'])->nullable();
+            $table->string('lokasi_instansi')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('user_id')->on('user');
