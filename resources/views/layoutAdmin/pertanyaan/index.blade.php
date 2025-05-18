@@ -35,7 +35,7 @@
 @section('scripts')
 <script>
 $(document).ready(function () {
-    $('#tablePertanyaan').DataTable({
+    window.tablePertanyaan = $('#tablePertanyaan').DataTable({
         processing: true,
         serverSide: true,
         ajax: {

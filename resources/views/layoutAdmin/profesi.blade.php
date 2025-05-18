@@ -73,7 +73,7 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: "{{ url('admin/listProfesi') }}",
+                url: "{{ url('admin/profesi/listprofesi') }}",
                 type: "POST",
                 data: function (e) {
                     e._token = '{{ csrf_token() }}';

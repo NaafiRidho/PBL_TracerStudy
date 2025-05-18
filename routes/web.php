@@ -22,7 +22,7 @@ Route::group(['prefix' => 'admin'], function () {
 
     // === Profesi ===
     Route::get('/profesi', [ProfesiController::class, 'index']);
-    Route::post('/profesi/list', [ProfesiController::class, 'list']);
+    Route::post('/profesi/listprofesi', [ProfesiController::class, 'list']);
     Route::get('/profesi/create_ajax', [ProfesiController::class, 'create_ajax']);
     Route::post('/profesi/store', [ProfesiController::class, 'store']);
     Route::get('/profesi/{id}/edit_ajax', [ProfesiController::class, 'edit_ajax']);
@@ -52,5 +52,5 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/pertanyaan/{id}/edit_ajax', [PertanyaanController::class, 'edit_ajax']);
     Route::put('/pertanyaan/{id}/update_ajax', [PertanyaanController::class, 'update_ajax']);
     Route::get('/pertanyaan/{id}/delete_ajax', [PertanyaanController::class, 'confirm_ajax']);
-    // Route::delete('/pertanyaan/{id}/delete_ajax', [PertanyaanController::class, 'delete_ajax']);
+    Route::delete('/pertanyaan/{id}/delete_ajax', [PertanyaanController::class, 'delete_ajax']);
 });
