@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ManajemenAlumniController;
 use App\Http\Controllers\ProfesiController;
+use App\Http\Controllers\PertanyaanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,23 +15,22 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('layoutAdmin.dashboard');
-});
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', function () {
-        return view('layoutAdmin.dashboard');
+        return view('layoutAdmin.pertanyaan.index');
     });
+
+    // === Profesi ===
     Route::get('/profesi', [ProfesiController::class, 'index']);
-    Route::post('/listProfesi', [ProfesiController::class, 'list']);
-    Route::get('/create_ajax', [ProfesiController::class, 'create_ajax']);
+    Route::post('/profesi/list', [ProfesiController::class, 'list']);
+    Route::get('/profesi/create_ajax', [ProfesiController::class, 'create_ajax']);
     Route::post('/profesi/store', [ProfesiController::class, 'store']);
-    Route::get('/{id}/edit_ajax', [ProfesiController::class, 'edit_ajax']); //menampilkan halaman form edit Level ajax
-    Route::put('/{id}/update_ajax', [ProfesiController::class, 'update_ajax']); //menyimpan perubahan data Level ajax
-    Route::get('/{id}/delete_ajax', [ProfesiController::class, 'confirm_ajax']);
+    Route::get('/profesi/{id}/edit_ajax', [ProfesiController::class, 'edit_ajax']);
+    Route::put('/profesi/{id}/update_ajax', [ProfesiController::class, 'update_ajax']);
+    Route::get('/profesi/{id}/delete_ajax', [ProfesiController::class, 'confirm_ajax']);
     Route::delete('/profesi/{id}/delete_ajax', [ProfesiController::class, 'delete_ajax']);
 
+    // === Manajemen Alumni ===
     Route::get('/alumni', function () {
         return view('layoutAdmin.manajemenAlumni.alumni');
     });
@@ -43,4 +43,14 @@ Route::group(['prefix' => 'admin'], function () {
     Route::put('/alumni/update/{id}', [ManajemenAlumniController::class, 'update']);
     Route::get('/alumni/{id}/delete_ajax', [ManajemenAlumniController::class, 'confirm_ajax']);
     Route::delete('/alumni/{id}/delete_ajax', [ManajemenAlumniController::class, 'delete_ajax']);
+
+    // === Pertanyaan ===
+    Route::get('/pertanyaan', [PertanyaanController::class, 'index']);
+    Route::get('/pertanyaan/list', [PertanyaanController::class, 'list']);
+    Route::get('/pertanyaan/create_ajax', [PertanyaanController::class, 'create_ajax']);
+    Route::post('/pertanyaan/store', [PertanyaanController::class, 'store']);
+    Route::get('/pertanyaan/{id}/edit_ajax', [PertanyaanController::class, 'edit_ajax']);
+    Route::put('/pertanyaan/{id}/update_ajax', [PertanyaanController::class, 'update_ajax']);
+    Route::get('/pertanyaan/{id}/delete_ajax', [PertanyaanController::class, 'confirm_ajax']);
+    // Route::delete('/pertanyaan/{id}/delete_ajax', [PertanyaanController::class, 'delete_ajax']);
 });

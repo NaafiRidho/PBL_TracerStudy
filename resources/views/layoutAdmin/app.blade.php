@@ -40,6 +40,11 @@
     <script src="{{ asset('/startbootstrap-sb-admin-gh-pages/assets/demo/chart-bar-demo.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     <script src="{{ asset('/startbootstrap-sb-admin-gh-pages/js/datatables-simple-demo.js') }}"></script>
+<!-- jQuery (harus lebih dulu dari plugin) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- jQuery Validation Plugin -->
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.19.5/jquery.validate.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
@@ -55,6 +60,16 @@
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
         });
     </script>
+    <script>
+  function modalAction(url) {
+    $.get(url, function (html) {
+      $('.modal').remove(); // Hapus modal sebelumnya
+      $('body').append(html); // Tambahkan HTML ke body
+      $('#myModal').modal('show');
+    });
+  }
+</script>
+
     @stack('js')
 </body>
 </html>

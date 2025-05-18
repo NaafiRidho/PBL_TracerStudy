@@ -9,6 +9,7 @@
                 </a>
 
                 <div class="sb-sidenav-menu-heading">Manajemen Data</div>
+
                 <a class="nav-link" href="{{ url('admin/profesi') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-briefcase"></i></div>
                     Profesi
