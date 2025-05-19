@@ -1,38 +1,48 @@
 @extends('layoutAdmin.app')
 
 @section('content')
-<div class="card card-outline card-primary">
-    <div class="card-header d-flex justify-content-between align-items-center bg-white border-bottom">
-        <h3 class="card-title text-primary m-0"><i class="fas fa-briefcase me-2"></i>Daftar Profesi</h3>
-        <button onclick="modalAction('{{ url('admin/create_ajax') }}')" class="btn btn-success btn-sm" title="Tambah Profesi Baru">
-            <i class="fas fa-plus-circle me-1"></i> Tambah Profesi
-        </button>
-    </div>
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Data Profesi</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Dashboard / Profesi</li>
+    </ol>
 
-    <div class="card-body">
-        @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-        @if(session('error'))
-            <div class="alert alert-danger">{{ session('error') }}</div>
-        @endif
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span><i class="fas fa-briefcase me-1"></i> Tabel Profesi</span>
+            <button onclick="modalAction('{{ url('admin/profesi/create_ajax') }}')" 
+                    class="btn btn-success btn-sm" 
+                    title="Tambah Profesi Baru">
+                <i class="fas fa-plus-circle me-1"></i> Tambah Profesi
+            </button>
+        </div>
+        <div class="card-body">
+            @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+            @if(session('error'))
+                <div class="alert alert-danger">{{ session('error') }}</div>
+            @endif
 
-        <p><strong>Daftar Profesi</strong></p>
-        <p>Berikut adalah daftar profesi yang tersedia. Anda dapat mengimpor, mengekspor, dan menambah profesi baru menggunakan tombol di atas.</p>
+            <p><strong>Daftar Profesi</strong></p>
+            <p>Berikut adalah daftar profesi yang tersedia. Anda dapat mengimpor, mengekspor, dan menambah profesi baru menggunakan tombol di atas.</p>
 
-        <div class="table-responsive">
-        <table class="table table-bordered table-striped table-hover table-sm" id="table_user">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Kategori Profesi</th>
-                    <th>Profesi</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-        </table>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover table-sm" id="table_user">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Kategori Profesi</th>
+                            <th>Profesi</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
+
 @endsection
 
 @push('css')

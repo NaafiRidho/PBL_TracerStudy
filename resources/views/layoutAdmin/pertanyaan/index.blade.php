@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layoutAdmin.app')
 
 @section('title', 'Data Pertanyaan')
 
@@ -12,7 +12,7 @@
     <div class="card mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             <span><i class="fas fa-table me-1"></i> Tabel Pertanyaan</span>
-            <button class="btn btn-primary btn-sm" onclick="createPertanyaan()">Tambah</button>
+            <button class="btn btn-success btn-sm" onclick="createPertanyaan()"><i class="fas fa-plus-circle me-1"></i>Tambah Pertanyaan</button>
         </div>
         <div class="card-body">
             <table id="tablePertanyaan" class="table table-bordered table-striped">

@@ -1,51 +1,55 @@
 @extends('layoutAdmin.app')
 
 @section('content')
-<div class="card card-outline card-primary">
-    <div class="card-header d-flex justify-content-between align-items-center bg-white border-bottom">
-        <h3 class="card-title text-primary m-0">
-            <i class="fas fa-user-graduate me-2"></i>Daftar Alumni
-        </h3>
-        <div class="d-flex gap-2">
-            <button onclick="modalAction('{{ url('admin/alumni/create_ajax') }}')" 
-                    class="btn btn-success btn-sm" 
-                    title="Tambah alumni baru">
-                <i class="fas fa-plus-circle me-1"></i> Tambah alumni
-            </button>
-            <button onclick="modalAction('{{ url('admin/alumni/import_ajax') }}')" 
-                    class="btn btn-info btn-sm" 
-                    title="Import alumni dari file">
-                <i class="fas fa-file-import me-1"></i> Import alumni
-            </button>
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Data Alumni</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Dashboard / Alumni</li>
+    </ol>
+
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span><i class="fas fa-user-graduate me-1"></i> Tabel Alumni</span>
+            <div class="d-flex gap-2">
+                <button onclick="modalAction('{{ url('admin/alumni/create_ajax') }}')" 
+                        class="btn btn-success btn-sm" 
+                        title="Tambah alumni baru">
+                    <i class="fas fa-plus-circle me-1"></i> Tambah alumni
+                </button>
+                <button onclick="modalAction('{{ url('admin/alumni/import_ajax') }}')" 
+                        class="btn btn-info btn-sm" 
+                        title="Import alumni dari file">
+                    <i class="fas fa-file-import me-1"></i> Import alumni
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+            @if(session('error'))
+                <div class="alert alert-danger">{{ session('error') }}</div>
+            @endif
+
+            <p><strong>Daftar alumni</strong></p>
+            <p>Berikut adalah daftar alumni yang tersedia. Anda dapat mengimpor, mengekspor, dan menambah alumni baru menggunakan tombol di atas.</p>
+
+            <table class="table table-bordered table-striped" id="table_user">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Program Studi</th>
+                        <th>NIM</th>
+                        <th>Nama</th>
+                        <th>Tanggal Lulus</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
     </div>
 </div>
 
-    <div class="card-body">
-        @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-        @if(session('error'))
-            <div class="alert alert-danger">{{ session('error') }}</div>
-        @endif
-
-        <p><strong>Daftar alumni</strong></p>
-        <p>Berikut adalah daftar alumni yang tersedia. Anda dapat mengimpor, mengekspor, dan menambah alumni baru menggunakan tombol di atas.</p>
-
-        <table class="table table-bordered table-striped table-hover table-sm" id="table_user">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Program Studi</th>
-                    <th>NIM</th>
-                    <th>Nama</th>
-                    <th>Tanggal Lulus</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-</div>
 @endsection
 
 @push('css')

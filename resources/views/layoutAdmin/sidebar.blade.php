@@ -18,6 +18,10 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-users-cog"></i></div>
                     Manajemen Alumni
                 </a>
+                <a class="nav-link" href="{{ url('admin/pertanyaan') }}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-briefcase"></i></div>
+                    Pertanyaan
+                </a>
 
                 <div class="sb-sidenav-menu-heading">Interface</div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">

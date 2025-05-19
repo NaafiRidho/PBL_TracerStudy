@@ -1,4 +1,4 @@
-<form action="{{ url('/admin/' . $profesi->profesi_id . '/update_ajax') }}" method="POST" id="form-tambah">
+<form action="{{ url('/admin/profesi/' . $profesi->profesi_id . '/update_ajax') }}" method="POST" id="form-tambah">
     @csrf
     @method('PUT')
     <div class="modal-dialog modal-lg" role="document">

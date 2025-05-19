@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layoutAdmin.app')
 @section('content')
 
 <form action="{{ url('/admin/pertanyaan/' . $pertanyaan->getKey() . '/delete_ajax') }}" method="POST" id="form-delete">

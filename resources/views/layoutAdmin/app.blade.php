@@ -69,7 +69,7 @@
     });
   }
 </script>
-
+    @yield('scripts') <!-- Tambahan script per halaman -->
     @stack('js')
 </body>
 </html>
