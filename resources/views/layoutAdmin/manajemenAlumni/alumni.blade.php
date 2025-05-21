@@ -12,15 +12,15 @@
             <span><i class="fas fa-user-graduate me-1"></i> Tabel Alumni</span>
             <div class="d-flex gap-2">
                 <button type="button" onclick="modalAction('{{ url('/profesi/import') }}')" class="btn btn-primary btn-sm">
-                    <i class="fas fa-file-import me-1"></i> Import Data Profesi
+                    <i class="fas fa-file-import me-1"></i> Import Data Alumni
                 </button>
                 <a href="{{ url('/profesi/export_excel') }}" class="btn btn-warning btn-sm">
-                    <i class="fa fa-file-excel me-1"></i> Export Data Profesi
+                    <i class="fa fa-file-excel me-1"></i> Export Data Alumni
                 </a>
                 <button onclick="modalAction('{{ url('admin/alumni/create_ajax') }}')" 
                         class="btn btn-success btn-sm" 
                         title="Tambah alumni baru">
-                    <i class="fas fa-plus-circle me-1"></i> Tambah alumni
+                    <i class="fas fa-plus-circle me-1"></i> Tambah Alumni
                 </button>
             </div>
         </div>
