@@ -11,15 +11,16 @@
         <div class="card-header d-flex justify-content-between align-items-center">
             <span><i class="fas fa-user-graduate me-1"></i> Tabel Alumni</span>
             <div class="d-flex gap-2">
+                <button type="button" onclick="modalAction('{{ url('/profesi/import') }}')" class="btn btn-primary btn-sm">
+                    <i class="fas fa-file-import me-1"></i> Import Data Profesi
+                </button>
+                <a href="{{ url('/profesi/export_excel') }}" class="btn btn-warning btn-sm">
+                    <i class="fa fa-file-excel me-1"></i> Export Data Profesi
+                </a>
                 <button onclick="modalAction('{{ url('admin/alumni/create_ajax') }}')" 
                         class="btn btn-success btn-sm" 
                         title="Tambah alumni baru">
                     <i class="fas fa-plus-circle me-1"></i> Tambah alumni
-                </button>
-                <button onclick="modalAction('{{ url('admin/alumni/import_ajax') }}')" 
-                        class="btn btn-info btn-sm" 
-                        title="Import alumni dari file">
-                    <i class="fas fa-file-import me-1"></i> Import alumni
                 </button>
             </div>
         </div>
@@ -69,6 +70,16 @@
     .btn:hover {
         transform: scale(1.05);
     }
+    table.dataTable thead th {
+        border-top: 2px solid #dee2e6;
+    }
+    div.dataTables_wrapper div.dataTables_length,
+    div.dataTables_wrapper div.dataTables_filter {
+        margin-bottom: 20px;
+    }
+    table.dataTable {
+        margin-top: 10px;
+    }
 </style>
 @endpush
 
@@ -89,6 +100,8 @@
         window.dataUser = $('#table_user').DataTable({
             processing: true,
             serverSide: true,
+            responsive: true,
+            autoWidth: false,
             ajax: {
                 url: "{{ url('admin/listalumni') }}",
                 type: "POST",
