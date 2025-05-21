@@ -90,7 +90,7 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: "{{ url('admin/listalumni') }}",
+                url: "{{ url('admin/alumni/listalumni') }}",
                 type: "POST",
                 data: function (e) {
                     e._token = '{{ csrf_token() }}';
