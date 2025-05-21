@@ -3,6 +3,7 @@
 use App\Http\Controllers\ManajemenAlumniController;
 use App\Http\Controllers\ProfesiController;
 use App\Http\Controllers\PertanyaanController;
+use App\Http\Controllers\PenggunaLulusanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,4 +54,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::put('/pertanyaan/{id}/update_ajax', [PertanyaanController::class, 'update_ajax']);
     Route::get('/pertanyaan/{id}/delete_ajax', [PertanyaanController::class, 'confirm_ajax']);
     Route::delete('/pertanyaan/{id}/delete_ajax', [PertanyaanController::class, 'delete_ajax']);
+});
+
+Route::group(['prefix' => 'penggunaLulusan'], function () {
+    Route::get('/', [PenggunaLulusanController::class, 'index']);
+    Route::post('/store', [PenggunaLulusanController::class, 'store']);
 });
