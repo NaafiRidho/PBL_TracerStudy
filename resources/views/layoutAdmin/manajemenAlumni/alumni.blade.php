@@ -11,7 +11,7 @@
         <div class="card-header d-flex justify-content-between align-items-center">
             <span><i class="fas fa-user-graduate me-1"></i> Tabel Alumni</span>
             <div class="d-flex gap-2">
-                <button type="button" onclick="modalAction('{{ url('/profesi/import') }}')" class="btn btn-primary btn-sm">
+                <button type="button" onclick="modalAction('{{ url('admin/alumni/import_ajax') }}')" class="btn btn-primary btn-sm">
                     <i class="fas fa-file-import me-1"></i> Import Data Alumni
                 </button>
                 <a href="{{ url('/profesi/export_excel') }}" class="btn btn-warning btn-sm">
