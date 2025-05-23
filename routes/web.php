@@ -60,3 +60,7 @@ Route::group(['prefix' => 'penggunaLulusan'], function () {
     Route::get('/', [PenggunaLulusanController::class, 'index']);
     Route::post('/store', [PenggunaLulusanController::class, 'store']);
 });
+
+Route::get('/', function () {
+    return view('layoutLandingPage.hero');
+});
