@@ -172,7 +172,7 @@
         </div>
     </div>
     <script>
-        document.getElementById('otp.send').addEventListener('submit', function(e) {
+        document.getElementById('otp.send').addEventListener('submit', function(sendOtp) {
             e.preventDefault();
             const email = document.getElementById('email').value;
             alert(`Kode OTP telah dikirim ke ${email}. Silakan cek email Anda.`);
