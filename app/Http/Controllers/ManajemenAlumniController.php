@@ -20,7 +20,7 @@ class ManajemenAlumniController extends Controller
         return DataTables::of($alumni)
             ->addIndexColumn()
             ->editColumn('tanggal_lulus', function ($alumni) {
-                return $alumni->tanggal_lulus ? $alumni->tanggal_lulus->format('Y-m-d') : '';
+                return $alumni->tanggal_lulus ? $alumni->tanggal_lulus->format('d-m-Y') : '';
             })
             ->addColumn('aksi', function ($alumni) {
                 $btn = '<button onclick="modalAction(\'' . url('/admin/alumni/' . $alumni->alumni_id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';

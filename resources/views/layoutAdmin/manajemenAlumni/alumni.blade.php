@@ -38,7 +38,7 @@
             <table class="table table-bordered table-striped" id="table_user">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>No</th>
                         <th>Program Studi</th>
                         <th>NIM</th>
                         <th>Nama</th>

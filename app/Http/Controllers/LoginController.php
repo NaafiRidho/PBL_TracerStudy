@@ -7,25 +7,16 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    protected function authenticated(Request $request, $user)
+    // Override agar login pakai username, bukan email
+    public function username()
     {
-        \Log::info('User role: ' . ($user->role->role_nama ?? 'null'));
-        $role = $user->role->role_nama;
-
-        if ($role === 'Admin') {
-            return redirect('/admin/profesi');
-        } elseif ($role === 'Alumni') {
-            return redirect('/admin/profesi');
-        } else {
-            return redirect('/user/dashboard');
-        }
+        return 'username';
     }
-
 
     // Tampilkan form login
     public function showLoginForm()
     {
-        return view('login'); // Pastikan file resources/views/auth/login.blade.php ada
+        return view('login'); // Pastikan file resources/views/login.blade.php tersedia
     }
 
     // Proses login
@@ -38,12 +29,31 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+
+            \Log::info('Login berhasil oleh: ' . Auth::user()->username);
             return $this->authenticated($request, Auth::user());
         }
 
+        \Log::warning('Login gagal untuk username: ' . $request->username);
+
         return back()->withErrors([
-            'email' => 'Email atau password salah.',
+            'username' => 'Username atau password salah.',
         ])->withInput();
+    }
+
+    // Arahkan user setelah login berhasil
+    protected function authenticated(Request $request, $user)
+    {
+        $role = $user->role->role_nama ?? 'null';
+        \Log::info('User role: ' . $role);
+
+        if ($role === 'Admin') {
+            return redirect('/admin/profesi');
+        } elseif ($role === 'Alumni') {
+            return redirect('/alumni/' . $user->id); // Sesuaikan dengan kebutuhan route alumni
+        } else {
+            return redirect('/user/dashboard');
+        }
     }
 
     // Proses logout
@@ -52,6 +62,7 @@ class LoginController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect()->route('login')->with('status', 'Berhasil logout.');
     }
 }

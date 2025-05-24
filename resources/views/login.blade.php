@@ -346,9 +346,8 @@
                 </div>
             </div>
 
-            <form id="loginForm" method="POST" action="{{ route('login') }}">
+<form id="loginForm" method="POST" action="{{ url('login') }}">
     @csrf
-
     <div class="form-group">
         <div class="input-group">
             <span class="input-icon">👤</span>
@@ -557,53 +556,53 @@
         });
 
         // Event listener untuk form submit
-        loginForm.addEventListener('submit', function (e) {
-            e.preventDefault();
+        // loginForm.addEventListener('submit', function (e) {
+        //     e.preventDefault();
 
-            const username = usernameInput.value.trim();
-            const password = passwordInput.value.trim();
+        //     const username = usernameInput.value.trim();
+        //     const password = passwordInput.value.trim();
 
-            // Reset error messages
-            hideUsernameError();
-            hidePasswordError();
-            hideUsernameSuccess();
+        //     // Reset error messages
+        //     hideUsernameError();
+        //     hidePasswordError();
+        //     hideUsernameSuccess();
 
-            let hasError = false;
+        //     let hasError = false;
 
-            // Validasi username
-            if (!username) {
-                showUsernameError();
-                hasError = true;
-            }
+        //     // Validasi username
+        //     if (!username) {
+        //         showUsernameError();
+        //         hasError = true;
+        //     }
 
-            // Validasi password
-            if (!password) {
-                showPasswordError();
-                hasError = true;
-            }
+        //     // Validasi password
+        //     if (!password) {
+        //         showPasswordError();
+        //         hasError = true;
+        //     }
 
-            if (hasError) {
-                return;
-            }
+        //     if (hasError) {
+        //         return;
+        //     }
 
-            // Simulasi login berhasil
-            alert('Login berhasil!\nUsername: ' + username);
+        //     // Simulasi login berhasil
+        //     alert('Login berhasil!\nUsername: ' + username);
 
-            // Simpan username untuk penggunaan selanjutnya
-            saveUsername(username);
+        //     // Simpan username untuk penggunaan selanjutnya
+        //     saveUsername(username);
 
-            // Reset form setelah login berhasil
-            usernameInput.value = '';
-            passwordInput.value = '';
-            passwordInput.type = 'password';
-            passwordToggle.textContent = '👁️';
-            passwordToggle.title = 'Tampilkan password';
-            usernameTouched = false;
-            passwordTouched = false;
-            hideUsernameError();
-            hidePasswordError();
-            hideUsernameSuccess();
-        });
+        //     // Reset form setelah login berhasil
+        //     usernameInput.value = '';
+        //     passwordInput.value = '';
+        //     passwordInput.type = 'password';
+        //     passwordToggle.textContent = '👁️';
+        //     passwordToggle.title = 'Tampilkan password';
+        //     usernameTouched = false;
+        //     passwordTouched = false;
+        //     hideUsernameError();
+        //     hidePasswordError();
+        //     hideUsernameSuccess();
+        // });
 
         // Tutup dropdown ketika klik di luar area username
         document.addEventListener('click', function (e) {
