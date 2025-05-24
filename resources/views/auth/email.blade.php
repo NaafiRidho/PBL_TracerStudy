@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
+            background-color: #f0f4f8;
             margin: 0;
             padding: 0;
             display: flex;
@@ -21,24 +21,27 @@
         .login-wrapper {
             display: flex;
             background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            max-width: 900px;
-            width: 90%;
+            max-width: 920px;
+            width: 95%;
         }
 
         .login-image {
-            flex: 1;
-            background-image: url('https://images.unsplash.com/photo-1623461487986-9400110de28e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            flex: 1.5;
+            background-image: url('https://alumni.polinema.ac.id/front/upload/IMG_92751.JPG');
             background-size: cover;
             background-position: center;
-            min-height: 500px;
+            min-height: 150px;
+            /* Tambahkan ini untuk rounded kanan */
+            border-top-right-radius: 15px;
+            border-bottom-right-radius: 15px;
         }
 
         .login-container {
-            flex: 1;
-            padding: 40px;
+            flex: 1.5;
+            padding: 50px 40px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -52,15 +55,15 @@
         }
 
         h1 {
-            font-size: 24px;
+            font-size: 26px;
             margin-bottom: 10px;
-            color: #2c3e50;
+            color: #1d4582;
             text-align: center;
         }
 
         p {
-            font-size: 14px;
-            color: #7f8c8d;
+            font-size: 15px;
+            color: #555
             margin-bottom: 25px;
             text-align: center;
         }
@@ -88,12 +91,12 @@
         }
 
         input[type="email"]:focus {
-            border-color: #3498db;
+            border-color: #1d4582;
             outline: none;
         }
 
         .otp-button {
-            background-color: #3498db;
+            background-color: #1d4582;
             color: white;
             border: none;
             padding: 12px 20px;
@@ -107,7 +110,7 @@
         }
 
         .otp-button:hover {
-            background-color: #2980b9;
+            background-color: #002244;
         }
 
         .otp-button:disabled {
@@ -141,13 +144,13 @@
         <div class="login-container">
             <img src="{{ asset('startbootstrap-sb-admin-gh-pages/assets/img/Logo-Polinema.png') }}" alt="Logo"
                 width="50" class="logo">
-            <h1>Login Tracer Study</h1>
+            <h1>Tracer Study Alumni</h1>
             <p>Masukkan email Anda untuk menerima kode OTP</p>
 
             <form method="POST" action="{{ route('otp.send') }}" id="otp.send">
                 @csrf
                 <label>Email:</label>
-                <input type="email" name="email" required>
+                <input type="email" name="email" required placeholder="contoh: alumni@polinema.ac.id">
                 <button type="submit" class="otp-button">Kirim OTP</button>
             </form>
             
