@@ -38,7 +38,7 @@
         button {
             width: 100%;
             padding: 0.75rem;
-            background-color: #3182ce;
+            background-color: #1d4582;
             color: white;
             border: none;
             border-radius: 6px;
