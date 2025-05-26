@@ -256,7 +256,7 @@ $(document).ready(function () {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         @php
-                        $baseUrl = url('/login/otp');
+                        $baseUrl = url('/login/email');
                         @endphp
                         const fullUrl = "{{ $baseUrl }}";
                         window.location.href = fullUrl;

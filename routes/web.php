@@ -38,10 +38,9 @@ Route::post('/login/email', [AuthOtpLoginController::class, 'sendOtp'])->name('o
 Route::get('/login/otp', [AuthOtpLoginController::class, 'showOtpForm'])->name('otp.verify.form');
 Route::post('/login/otp', [AuthOtpLoginController::class, 'verifyOtp'])->name('otp.verify');
 
-Route::get('/alumni/form/{id}', fn($id) => "Form Alumni ID: $id")->name('alumni.form');
 Route::get('/kuisioner/{id}', fn($id) => "Kuisioner Atasan ID: $id")->name('kuisioner');
 
-Route::get('/alumni/{id}', [AlumniController::class,'index']);
+Route::get('/alumni/{id}', [AlumniController::class,'index'])->name('alumni.form');
 Route::get('/alumni/list/{id}', [AlumniController::class, 'list']);
 Route::get('/profesi/by-kategori/{kategori_profesi_id}', [AlumniController::class, 'byKategori']);
 Route::put('/alumni/update/{id}', [App\Http\Controllers\AlumniController::class, 'update']);
