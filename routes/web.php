@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\Auth\OtpLoginController as AuthOtpLoginController;
 use App\Http\Controllers\OtpLoginController;
 use App\Http\Controllers\ProfileController;
@@ -39,3 +40,8 @@ Route::post('/login/otp', [AuthOtpLoginController::class, 'verifyOtp'])->name('o
 
 Route::get('/alumni/form/{id}', fn($id) => "Form Alumni ID: $id")->name('alumni.form');
 Route::get('/kuisioner/{id}', fn($id) => "Kuisioner Atasan ID: $id")->name('kuisioner');
+
+Route::get('/alumni/{id}', [AlumniController::class,'index']);
+Route::get('/alumni/list/{id}', [AlumniController::class, 'list']);
+Route::get('/profesi/by-kategori/{kategori_profesi_id}', [AlumniController::class, 'byKategori']);
+Route::put('/alumni/update/{id}', [App\Http\Controllers\AlumniController::class, 'update']);
