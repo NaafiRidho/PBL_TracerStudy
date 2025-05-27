@@ -32,12 +32,44 @@
 <div id="modalContainer"></div>
 @endsection
 
+@push('css')
+<style>
+    .table th, .table td {
+        vertical-align: middle;
+    }
+    .card-header {
+        background-color: #f4f6f9;
+    }
+    .card-title {
+        font-size: 1.5rem;
+    }
+    .btn {
+        transition: all 0.3s ease-in-out;
+    }
+    .btn:hover {
+        transform: scale(1.05);
+    }
+    table.dataTable thead th {
+        border-top: 2px solid #dee2e6;
+    }
+    div.dataTables_wrapper div.dataTables_length,
+    div.dataTables_wrapper div.dataTables_filter {
+        margin-bottom: 20px;
+    }
+    table.dataTable {
+        margin-top: 10px;
+    }
+</style>
+@endpush
+
 @section('scripts')
 <script>
 $(document).ready(function () {
-    window.tablePertanyaan = $('#tablePertanyaan').DataTable({
+    window.dataPertanyaan = $('#tablePertanyaan').DataTable({
         processing: true,
         serverSide: true,
+        responsive: true,
+        autoWidth: false,
         ajax: {
             url: '{{ url("/admin/pertanyaan/list") }}',
             error: function(xhr, error, thrown) {
@@ -46,9 +78,9 @@ $(document).ready(function () {
             }
         },
         columns: [
-            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+            { data: 'DT_RowIndex', className: "text-center", orderable: false, searchable: false },
             { data: 'pertanyaan', name: 'pertanyaan' },
-            { data: 'aksi', name: 'aksi', orderable: false, searchable: false }
+            { data: 'aksi', className: "text-center", orderable: false, searchable: false }
         ]
     });
 });

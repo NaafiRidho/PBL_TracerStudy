@@ -11,12 +11,6 @@
         <div class="card-header d-flex justify-content-between align-items-center">
             <span><i class="fas fa-briefcase me-1"></i> Tabel Profesi</span>
             <div class="d-flex gap-2 flex-wrap">
-                <button type="button" onclick="modalAction('{{ url('/profesi/import') }}')" class="btn btn-primary btn-sm">
-                    <i class="fas fa-file-import me-1"></i> Import Data Profesi
-                </button>
-                <a href="{{ url('/profesi/export_excel') }}" class="btn btn-warning btn-sm">
-                    <i class="fa fa-file-excel me-1"></i> Export Data Profesi
-                </a>
                 <button onclick="modalAction('{{ url('admin/profesi/create_ajax') }}')" 
                         class="btn btn-success btn-sm" 
                         title="Tambah Profesi Baru">
@@ -33,7 +27,7 @@
             @endif
 
             <p><strong>Daftar Profesi</strong></p>
-            <p>Berikut adalah daftar profesi yang tersedia. Anda dapat mengimpor, mengekspor, dan menambah profesi baru menggunakan tombol di atas.</p>
+            <p>Berikut adalah daftar profesi yang tersedia. Anda dapat menambah profesi baru menggunakan tombol di atas.</p>
 
             <div class="table-responsive">
                 <table class="table table-bordered table-striped table-hover table-sm" id="table_user">
