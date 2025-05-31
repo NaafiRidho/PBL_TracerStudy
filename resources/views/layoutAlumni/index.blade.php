@@ -87,8 +87,8 @@
                     <label for="kategori_profesi_id" class="form-label">Kategori Profesi</label>
                     <select name="kategori_profesi_id" class="form-select" id="kategori_profesi_id">
                         <option value="">-- Pilih Kategori Profesi --</option>
-                        <option value="infokom">Bidang Infokom</option>
-                        <option value="non_infokom">Bidang Non Infokom</option>
+                        <option value="1">Bidang Infokom</option>
+                        <option value="2">Bidang Non Infokom</option>
                         <option value="belum_bekerja">Belum Bekerja</option>
                     </select>
                 </div>
@@ -164,21 +164,22 @@
                     <input type="email" name="email" id="email" class="form-control">
                 </div>
 
-                <div class="mb-3">
-                    <label for="jabatan" class="form-label">Jabatan</label>
-                    <input type="text" name="jabatan" id="jabatan" class="form-control">
-                </div>
-
+                
                 <!-- Informasi Atasan -->
                 <div class="mb-4">
                     <h5 class="bg-light p-2 text-primary border-start border-primary border-3 ps-3">
                         👤 Informasi Atasan
                     </h5>
                 </div>
-
+                
                 <div class="mb-3">
                     <label for="nama_atasan" class="form-label">Nama Atasan</label>
                     <input type="text" name="nama_atasan" id="nama_atasan" class="form-control">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="jabatan" class="form-label">Jabatan</label>
+                    <input type="text" name="jabatan" id="jabatan" class="form-control">
                 </div>
 
                 <div class="mb-3">
@@ -202,9 +203,13 @@
 
 <script>
 $(document).ready(function () {
+    // Ambil alumniId dari URL
     const pathParts = window.location.pathname.split("/");
-    const alumniId = pathParts[4]; // sesuaikan jika struktur URL berbeda
-
+    const alumniIndex = pathParts.indexOf("alumni");
+    let alumniId = null;
+    if (alumniIndex !== -1 && pathParts.length > alumniIndex + 1) {
+        alumniId = pathParts[alumniIndex + 1];
+    }
     @php
         $baseUrl = url('/alumni/list');
     @endphp
@@ -213,28 +218,27 @@ $(document).ready(function () {
 
     // Data profesi berdasarkan kategori
     const profesiData = {
-        'infokom': [
-            { id: 'dev_programmer', nama: 'Developer/Programmer/Software Engineer' },
-            { id: 'it_support', nama: 'IT Support/IT Administrator' },
-            { id: 'infrastructure', nama: 'Infrastructure Engineer' },
-            { id: 'digital_marketing', nama: 'Digital Marketing Specialist' },
-            { id: 'graphic_designer', nama: 'Graphic Designer/Multimedia Designer' },
-            { id: 'business_analyst', nama: 'Business Analyst' },
-            { id: 'qa_engineer', nama: 'QA Engineer/Tester' },
-            { id: 'it_entrepreneur', nama: 'IT Entrepreneur' },
-            { id: 'trainer_it', nama: 'Trainer/Guru/Dosen (IT)' },
-            { id: 'mahasiswa_it', nama: 'Mahasiswa' },
-            { id: 'lainnya_it', nama: 'Lainnya...' }
-        ],
-        'non_infokom': [
-            { id: 'procurement', nama: 'Procurement & Operational Team' },
-            { id: 'wirausaha_non_it', nama: 'Wirausahawan (Non IT)' },
-            { id: 'trainer_non_it', nama: 'Trainer/Guru/Dosen (Non IT)' },
-            { id: 'mahasiswa_non_it', nama: 'Mahasiswa' },
-            { id: 'lainnya_non_it', nama: 'Lainnya...' }
-        ],
-        'belum_bekerja': []
-    };
+    '1': [ // Bidang Infokom
+        { id: '1', nama: 'Developer/Programmer/Software Engineer' },
+        { id: '2', nama: 'IT Support/IT Administrator' },
+        { id: '3', nama: 'Infrastructure Engineer' },
+        { id: '4', nama: 'Digital Marketing Specialist' },
+        { id: '5', nama: 'Graphic Designer/Multimedia Designer' },
+        { id: '6', nama: 'Business Analyst' },
+        { id: '7', nama: 'QA Engineer/Tester' },
+        { id: '8', nama: 'IT Entrepreneur' },
+        { id: '9', nama: 'Trainer/Guru/Dosen (IT)' },
+        { id: '99', nama: 'Lainnya' } // opsi lainnya di sini
+    ],
+    '2': [ // Bidang Non Infokom
+        { id: '10', nama: 'Procurement & Operational Team' },
+        { id: '11', nama: 'Wirausahawan (Non IT)' },
+        { id: '12', nama: 'Trainer/Guru/Dosen (Non IT)' },
+        { id: '99', nama: 'Lainnya' } // opsi lainnya di sini
+    ],
+    '3': [] // Belum Bekerja, kosong
+};
+
 
     // Event handler untuk perubahan kategori profesi
     $('#kategori_profesi_id').on('change', function() {
@@ -271,17 +275,18 @@ $(document).ready(function () {
 
     // Event handler untuk perubahan profesi
     $('#profesi_id').on('change', function() {
-        const profesiValue = $(this).val();
-        const profesiLainnyaDiv = $('#profesi-lainnya');
-        
-        if (profesiValue === 'lainnya_it' || profesiValue === 'lainnya_non_it') {
-            profesiLainnyaDiv.show();
-            $('#profesi_lainnya').prop('required', true);
+    const profesiValue = $(this).val();
+    const profesiLainnyaDiv = $('#profesi-lainnya');
+
+    if (profesiValue === '99') { // opsi "Lainnya"
+        profesiLainnyaDiv.show();
+        $('#profesi_lainnya').prop('required', true);
         } else {
-            profesiLainnyaDiv.hide();
-            $('#profesi_lainnya').prop('required', false);
-        }
+        profesiLainnyaDiv.hide();
+        $('#profesi_lainnya').val('').prop('required', false);
+    }
     });
+
 
     // Fungsi untuk load data alumni dan isi form
     if (alumniId && /^\d+$/.test(alumniId)) {
@@ -289,10 +294,11 @@ $(document).ready(function () {
             url: fullUrl,
             type: 'GET',
             success: function (response) {
+                console.log(response.alumni);
                 const data = response.alumni;
 
                 $('#nim').val(data.nim);
-                $('#nama_alumni').val(data.nama);
+                $('#nama_alumni').val(data.nama_alumni);
                 $('#prodi').val(data.prodi);
                 $('#tanggal_lulus').val(data.tanggal_lulus.substring(0, 10));
 

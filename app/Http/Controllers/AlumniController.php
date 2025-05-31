@@ -24,16 +24,8 @@ class AlumniController extends Controller
     {
         $alumni = alumniModel::findOrFail($id);
         return response()->json([
-            'alumni' => [
-                'nim' => $alumni->nim,
-                'nama' => $alumni->nama_alumni,
-                'prodi' => $alumni->prodi,
-                'tanggal_lulus' => $alumni->tanggal_lulus,
-                'jenis_instansi_id' => $alumni->jenis_instansi_id,
-                'kategori_profesi_id' => $alumni->kategori_profesi_id,
-                'profesi_id' => $alumni->profesi_id,
-            ]
-        ]);
+        'alumni' => $alumni
+    ]);
     }
     public function byKategori($kategori_profesi_id)
     {

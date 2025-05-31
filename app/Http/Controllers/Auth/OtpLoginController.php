@@ -28,8 +28,8 @@ class OtpLoginController extends Controller
 
         $email = $request->email;
 
-        $alumni = alumniModel::where('email', $email)->first();
-        $atasan = atasanModel::where('email_atasan', $email)->first();
+        $alumni = alumniModel::where('email', $email)->where('isOtp', false)->first();
+        $atasan = atasanModel::where('email_atasan', $email)->where('isOtp', false)->first();
 
         if (!$alumni && !$atasan) {
             return back()->withErrors(['email' => 'Email tidak terdaftar sebagai alumni atau atasan.']);
