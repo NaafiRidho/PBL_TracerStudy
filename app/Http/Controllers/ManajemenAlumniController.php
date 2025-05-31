@@ -71,6 +71,7 @@ class ManajemenAlumniController extends Controller
                         $nim = trim($row['B']);
                         $nama = trim($row['C']);
                         $tanggalLulusExcel = $row['D'];
+                        $email = trim($row['E']);
 
                         // Validasi dasar
                         if (empty($nim) || empty($nama)) {
@@ -110,6 +111,7 @@ class ManajemenAlumniController extends Controller
                             'nim' => $nim,
                             'nama_alumni' => $nama,
                             'tanggal_lulus' => $tanggalLulus,
+                            'email' => $email,
                             'created_at' => now(),
                             'updated_at' => now(),
                         ];
@@ -154,6 +156,7 @@ class ManajemenAlumniController extends Controller
             'nim'            => 'required|min:5|unique:alumni,nim',
             'nama_alumni'    => 'required|min:3',
             'tanggal_lulus'  => 'required|date',
+            'email'          => 'required|email|unique:alumni,email'
         ]);
 
         if ($validator->fails()) {
@@ -179,6 +182,7 @@ class ManajemenAlumniController extends Controller
                 'nim'           => $request->nim,
                 'nama_alumni'   => $request->nama_alumni,
                 'tanggal_lulus' => $request->tanggal_lulus,
+                'email'         => $request->email
             ]);
             return response()->json([
                 'status'  => true,
@@ -236,6 +240,7 @@ class ManajemenAlumniController extends Controller
                 'nim'           => $request->nim,
                 'nama_alumni'   => $request->nama_alumni,
                 'tanggal_lulus' => $request->tanggal_lulus,
+                'email'         => $request->email
             ]);
 
             return response()->json([

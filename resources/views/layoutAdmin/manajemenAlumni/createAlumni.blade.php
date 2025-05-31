@@ -4,8 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Tambah Data Alumni</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true"><i class="bi bi-x"></i></span>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
                 </button>
             </div>
 
@@ -37,6 +36,12 @@
                     <input type="date" name="tanggal_lulus" id="tanggal_lulus" class="form-control" required>
                     <small id="error-tanggal_lulus" class="error-text form-text text-danger"></small>
                 </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" id="email" class="form-control" required>
+                    <small id="error-email" class="error-text form-text text-danger"></small>
+                </div>
             </div>
 
             <div class="modal-footer">
@@ -50,7 +55,7 @@
 <script>
     $(document).ready(function () {
         // Close modal
-        $('#myModal .close, #myModal .btn-warning').on('click', function () {
+        $('#myModal .btn-close, #myModal .btn-warning').on('click', function () {
             $('#myModal').modal('hide');
         });
 
@@ -65,6 +70,10 @@
                 nama_alumni: {
                     required: true,
                     minlength: 3
+                },
+                email: {
+                    required: true,
+                    email: true
                 },
                 tanggal_lulus: {
                     required: true,
