@@ -26,7 +26,9 @@ class alumniModel extends Model
         'masa_tunggu',
         'nama_instansi',
         'skala_instansi',
-        'lokasi_instansi'
+        'lokasi_instansi',
+        'otp_code',
+        'isOtp'
     ];
 
     protected $casts = [

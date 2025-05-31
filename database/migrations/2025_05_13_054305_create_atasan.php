@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('atasan', function (Blueprint $table) {
             $table->id('atasan_id');
-            $table->unsignedBigInteger('user_id')->index();
+            $table->unsignedBigInteger('user_id')->index()->nullable();
             $table->string('nama_atasan',50);
             $table->string('nama_instansi',100);
             $table->string('jabatan',50);
             $table->string('email_atasan');
             $table->string('no_hp_atasan');
+            $table->string('otp_code')->nullable(); // Kode OTP
+            $table->boolean('isOtp')->default(false); //mengecek apakah otp sudah terpakai apa belum
             $table->timestamps();
 
             $table->foreign('user_id')->references('user_id')->on('user');

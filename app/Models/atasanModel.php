@@ -26,6 +26,8 @@ class atasanModel extends Model
         'jabatan',
         'email_atasan',
         'no_hp_atasan',
+        'otp_code',
+        'isOtp'
     ];
 
     // Relasi ke tabel user (asumsinya modelnya User)
