@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ManajemenAlumniController;
 use App\Http\Controllers\ProfesiController;
@@ -26,8 +27,12 @@ Route::group([
 
     // === Dashboard Admin ===
     Route::get('/', function () {
-        return view('layoutAdmin.pertanyaan.index');
-    })->name('admin.dashboard');
+        return view('layoutAdmin.index');
+    });
+    Route::get('/dashboard/instansi-chart', [DashboardController::class, 'getInstansiChartData']);
+    Route::get('/dashboard/profesi-chart', [DashboardController::class, 'getProfesiChart']);
+
+
 
     // === PROFESI ===
     Route::prefix('profesi')->group(function () {

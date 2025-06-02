@@ -71,5 +71,13 @@
 </script>
     @yield('scripts') <!-- Tambahan script per halaman -->
     @stack('js')
+        <!-- jQuery harus paling awal -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables -->
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+
+    @stack('scripts')
 </body>
 </html>

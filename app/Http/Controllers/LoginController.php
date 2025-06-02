@@ -48,7 +48,7 @@ class LoginController extends Controller
         \Log::info('User role: ' . $role);
 
         if ($role === 'Admin') {
-            return redirect('/admin/profesi');
+            return redirect('/admin');
         } elseif ($role === 'Alumni') {
             return redirect('/alumni/' . $user->id); // Sesuaikan dengan kebutuhan route alumni
         } else {
