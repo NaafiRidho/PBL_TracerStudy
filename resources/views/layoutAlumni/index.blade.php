@@ -242,36 +242,50 @@ $(document).ready(function () {
 
     // Event handler untuk perubahan kategori profesi
     $('#kategori_profesi_id').on('change', function() {
-        const kategoriValue = $(this).val();
-        const profesiSelect = $('#profesi_id');
-        const profesiLainnyaDiv = $('#profesi-lainnya');
-        
-        // Reset profesi select
-        profesiSelect.html('<option value="">-- Pilih Profesi --</option>');
-        profesiLainnyaDiv.hide();
-        
-        if (kategoriValue === '') {
-            profesiSelect.prop('disabled', true);
-            profesiSelect.html('<option value="">-- Pilih Kategori Profesi Terlebih Dahulu --</option>');
-            return;
-        }
-        
-        if (kategoriValue === 'belum_bekerja') {
-            profesiSelect.prop('disabled', true);
-            profesiSelect.html('<option value="belum_bekerja">Belum Bekerja</option>');
-            profesiSelect.val('belum_bekerja');
-            return;
-        }
-        
-        // Enable profesi select dan populate dengan data
-        profesiSelect.prop('disabled', false);
-        
-        if (profesiData[kategoriValue]) {
-            profesiData[kategoriValue].forEach(function(profesi) {
-                profesiSelect.append(`<option value="${profesi.id}">${profesi.nama}</option>`);
+    const kategoriValue = $(this).val();
+    const profesiSelect = $('#profesi_id');
+    const profesiLainnyaDiv = $('#profesi-lainnya');
+
+    // Reset
+    profesiSelect.html('<option value="">-- Pilih Profesi --</option>');
+    profesiLainnyaDiv.hide();
+    $('#profesi_lainnya').val('').prop('required', false);
+
+    if (kategoriValue === '') {
+        profesiSelect.prop('disabled', true);
+        profesiSelect.html('<option value="">-- Pilih Kategori Profesi Terlebih Dahulu --</option>');
+        return;
+    }
+
+    if (kategoriValue === 'belum_bekerja') {
+        profesiSelect.prop('disabled', true);
+        profesiSelect.html('<option value="belum_bekerja">Belum Bekerja</option>');
+        profesiSelect.val('belum_bekerja');
+        return;
+    }
+
+    var baseUrl = "{{ url('/profesi/by-kategori') }}";
+    var fullUrl = baseUrl + '/' + kategoriValue;
+    // Ambil data profesi dari server
+    $.ajax({
+        url: fullUrl,
+        type: 'GET',
+        success: function(response) {
+            profesiSelect.prop('disabled', false);
+            profesiSelect.html('<option value="">-- Pilih Profesi --</option>');
+
+            response.forEach(function(profesi) {
+                profesiSelect.append(`<option value="${profesi.profesi_id}">${profesi.profesi}</option>`);
             });
+        },
+        error: function(xhr) {
+            console.error('Gagal mengambil data profesi:', xhr.responseText);
+            profesiSelect.html('<option value="">-- Gagal Memuat Profesi --</option>');
+            profesiSelect.prop('disabled', true);
         }
     });
+});
+
 
     // Event handler untuk perubahan profesi
     $('#profesi_id').on('change', function() {
