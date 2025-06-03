@@ -62,7 +62,7 @@ class DummySeeder extends Seeder
                 'skala_instansi' => $faker->randomElement(['international', 'nasional', 'wirausaha']),
                 'lokasi_instansi' => $faker->city(),
                 'otp_code' => null,
-                'isOtp' => false,
+                'isOtp' => true,
                 'created_at' => now(),
                 'updated_at' => now()
             ]);

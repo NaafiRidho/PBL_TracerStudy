@@ -57,7 +57,7 @@
     <div class="row">
         {{-- Grafik Sebaran Jenis Instansi --}}
         <div class="col-xl-6">
-            <div class="card mb-4">
+            <div class="card mb-4 equal-height-card"> {{-- Added equal-height-card for consistency --}}
                 <div class="card-header">
                     <i class="fas fa-chart-pie me-1"></i>Grafik Sebaran Jenis Instansi
                 </div>
@@ -66,60 +66,119 @@
                 </div>
             </div>
         </div>
-
-        {{-- Tabel Sebaran Jenis Instansi --}}
-        <div class="col-md-6">
-            <div class="card mb-4">
+        {{-- Grafik Sebaran Profesi Lulusan --}}
+        <div class="col-xl-6">
+            <div class="card mb-4 equal-height-card">
                 <div class="card-header">
-                    <i class="fas fa-table me-1"></i>Tabel Sebaran Jenis Instansi
+                    <i class="fas fa-chart-pie me-1"></i>Grafik Sebaran Profesi Lulusan
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered" id="instansiTable">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Jenis Instansi</th>
-                                <th>Jumlah Alumni</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{-- Akan diisi dengan JavaScript --}}
-                        </tbody>
-                    </table>
+                    <canvas id="profesiChart" width="100%" height="40"></canvas>
                 </div>
             </div>
         </div>
-        <div class="col-xl-6">
-    <div class="card mb-4 equal-height-card">
-        <div class="card-header">
-            <i class="fas fa-chart-pie me-1"></i>Grafik Sebaran Profesi Lulusan
-        </div>
-        <div class="card-body">
-            <canvas id="profesiChart" width="100%" height="100"></canvas>
-        </div>
     </div>
-</div>
+    {{-- This div was mistakenly closing the row div, moved below --}}
 
-<div class="col-xl-6">
-    <div class="card mb-4  equal-height-card">
-        <div class="card-header">
-            <i class="fas fa-table me-1"></i>Tabel Sebaran Profesi
+
+    {{-- Tabel Sebaran Profesi --}}
+    <div class="row"> {{-- Wrap tables in their own row for proper layout --}}
+        <div class="col-xl-12 mt-4">
+            <div class="card mb-4 equal-height-card">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>Tabel Sebaran Profesi
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" id="tabelAlumni">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th rowspan="2" class="text-center align-middle">Tahun Lulus</th>
+                                    <th rowspan="2" class="text-center align-middle">Jumlah Lulusan</th>
+                                    <th rowspan="2" class="text-center align-middle">Jumlah Lulusan yang terlacak</th>
+                                    <th colspan="2" class="text-center">Profesi Kerja</th>
+                                    <th colspan="3" class="text-center">Lingkup Tempat Kerja</th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">Bidang Infokom</th>
+                                    <th class="text-center">Bidang Non Infokom</th>
+                                    <th class="text-center">Multinasional/Internasional</th>
+                                    <th class="text-center">Nasional</th>
+                                    <th class="text-center">Wirausaha</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="8" class="text-center">Memuat data...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-            <table class="table table-bordered" id="profesiTable">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Profesi</th>
-                        <th>Jumlah</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+
+        {{-- Tabel Rata-rata Masa Tunggu --}}
+        <div class="col-xl-12 mt-4">
+            <div class="card mb-4 equal-height-card">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>Tabel Rata-rata Masa Tunggu
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" id="tabelAverageWaitingTime">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th>Tahun Lulus</th>
+                                    <th>Jumlah Lulusan</th>
+                                    <th>Jumlah Lulusan yang Terlacak</th>
+                                    <th>Rata-rata Waktu Tunggu (Bulan)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="4" class="text-center">Memuat data...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-    </div>
+
+        {{-- Tabel Penilaian Kepuasan Pengguna Lulusan --}}
+        <div class="col-xl-12 mt-4">
+            <div class="card mb-4 equal-height-card">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>Tabel Penilaian Kepuasan Pengguna Lulusan
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" id="tabelAlumniSatisfaction">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th rowspan="2">No</th>
+                                    <th rowspan="2">Jenis Kemampuan</th>
+                                    <th colspan="4" class="text-center">Tingkat Kepuasan Pengguna (%)</th>
+                                </tr>
+                                <tr>
+                                    <th>Sangat Baik</th>
+                                    <th>Baik</th>
+                                    <th>Cukup</th>
+                                    <th>Kurang</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="6" class="text-center">Memuat data...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> {{-- Close the row div that contains all tables --}}
 </div>
 @endsection
 
@@ -142,49 +201,54 @@
         display: flex;
         flex-direction: column;
     }
+    .equal-height-card .card-body {
+        flex-grow: 1; /* Allow card body to grow and fill available space */
+    }
 </style>
 @endpush
 
 @push('scripts')
-<!-- Load Chart.js dan jQuery dari CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
 
 <script>
 $(document).ready(function () {
-    // Ambil data dari endpoint dan buat grafik serta tabel
+    // --- AJAX CALL 1: Grafik dan Tabel Sebaran Jenis Instansi ---
     $.ajax({
-        url: "{{ url('admin/dashboard/instansi-chart') }}",
+        url: "{{ url('admin/dashboard/instansi-chart') }}", // Ensure this URL exists and returns data for instansi chart
         method: 'GET',
         success: function(response) {
-            // Siapkan label dan data untuk chart
-            const labels = response.map(item => item.jenis_instansi);
-            const values = response.map(item => item.total);
+            console.log("Instansi Chart Response:", response);
 
-            // Buat grafik pie
-            const ctx = document.getElementById('instansiChart').getContext('2d');
-            new Chart(ctx, {
+            // Chart data for Instansi
+            const labelsInstansi = response.map(item => item.jenis_instansi);
+            const valuesInstansi = response.map(item => item.total);
+
+            const ctxInstansi = document.getElementById('instansiChart').getContext('2d');
+            new Chart(ctxInstansi, {
                 type: 'pie',
                 data: {
-                    labels: labels,
+                    labels: labelsInstansi,
                     datasets: [{
-                        data: values,
-                        backgroundColor: ['#007bff', '#ffc107', '#28a745', '#dc3545']
+                        data: valuesInstansi,
+                        backgroundColor: ['#007bff', '#ffc107', '#28a745', '#dc3545', '#6610f2', '#fd7e14', '#20c997'] // More colors for potentially more categories
                     }]
                 },
                 options: {
                     responsive: true,
-                        legend: {
-                            display: true,
-                            position: 'bottom'
-                        }
-                    }
+                    legend: { display: true, position: 'bottom' }
+                }
             });
 
-            // Isi tabel dengan data
-            let tableBody = '';
+            // Table data for Instansi (Assuming you have a table with id="instansiTable")
+            // Note: Your HTML snippet for tables did not include a specific table for "Instansi",
+            // only for "Alumni", "Average Waiting Time", and "Satisfaction".
+            // If you need a table for Instansi data, you'll need to add its HTML structure.
+            // For now, I'm commenting out the table population part to avoid errors if the table doesn't exist.
+            /*
+            let tableBodyInstansi = '';
             response.forEach((item, index) => {
-                tableBody += `
+                tableBodyInstansi += `
                     <tr>
                         <td>${index + 1}</td>
                         <td>${item.jenis_instansi}</td>
@@ -192,61 +256,250 @@ $(document).ready(function () {
                     </tr>
                 `;
             });
-            $('#instansiTable tbody').html(tableBody);
+            $('#instansiTable tbody').html(tableBodyInstansi);
+            */
         },
         error: function(xhr, status, error) {
-            console.error('AJAX Error:', error);
-            alert('Gagal memuat data grafik instansi');
+            console.error('AJAX Error for Instansi Chart:', status, error);
+            // alert('Gagal memuat data grafik instansi'); // Alert might be annoying in production
         }
     });
+
+    // --- AJAX CALL 2: Grafik dan Tabel Sebaran Profesi Lulusan ---
     $.ajax({
-    url: "{{ url('admin/dashboard/profesi-chart') }}",
-    method: 'GET',
-    success: function(response) {
-        const labels = response.map(p => p.profesi);
-        const values = response.map(p => p.total);
+        url: "{{ url('admin/dashboard/profesi-chart') }}", // Ensure this URL exists and returns data for profesi chart
+        method: 'GET',
+        success: function(response) {
+            console.log("Profesi Chart Response:", response);
 
-        const ctx = document.getElementById('profesiChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: values,
-                    backgroundColor: [
-                        '#007bff', '#ffc107', '#28a745', '#dc3545',
-                        '#6610f2', '#fd7e14', '#20c997', '#6f42c1',
-                        '#e83e8c', '#17a2b8', '#adb5bd' // max 11 (termasuk "Lainnya")
-                    ],
-                }]
-            },
-            options: {
-                responsive: true,
-                legend: {
-                    display: true,
-                    position: 'bottom'
+            // Chart data for Profesi
+            const labelsProfesi = response.map(p => p.profesi);
+            const valuesProfesi = response.map(p => p.total);
+
+            const ctxProfesi = document.getElementById('profesiChart').getContext('2d');
+            new Chart(ctxProfesi, {
+                type: 'pie',
+                data: {
+                    labels: labelsProfesi,
+                    datasets: [{
+                        data: valuesProfesi,
+                        backgroundColor: [
+                            '#007bff', '#ffc107', '#28a745', '#dc3545',
+                            '#6610f2', '#fd7e14', '#20c997', '#6f42c1',
+                            '#e83e8c', '#17a2b8', '#adb5bd', '#343a40' // Added more colors
+                        ],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    legend: { display: true, position: 'bottom' }
                 }
-            }
-        });
+            });
 
-        // Isi tabel
-        let tableBody = '';
-        response.forEach((p, i) => {
-            tableBody += `
-                <tr>
-                    <td>${i + 1}</td>
-                    <td>${p.profesi}</td>
-                    <td>${p.total}</td>
+            // Table data for Profesi (Assuming you have a table with id="profesiTable")
+            // Similar to Instansi, commenting out table population if the HTML table structure is missing.
+            /*
+            let tableBodyProfesi = '';
+            response.forEach((p, i) => {
+                tableBodyProfesi += `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td>${p.profesi}</td>
+                        <td>${p.total}</td>
+                    </tr>
+                `;
+            });
+            $('#profesiTable tbody').html(tableBodyProfesi);
+            */
+        },
+        error: function(err) {
+            console.error("AJAX Error for Profesi Chart:", err);
+            // alert("Gagal memuat data profesi.");
+        }
+    });
+
+    // --- AJAX CALL 3: Tabel Sebaran Profesi Alumni (main table) ---
+    $.ajax({
+        url: "{{ url('/admin/dashboard/rekap-alumni') }}", // This should call your getRekapAlumni function
+        method: 'GET',
+        success: function(response) {
+            console.log("Rekap Alumni Response:", response); // Log the raw response
+
+            // The PHP backend (getRekapAlumni) should already provide aggregated data per year.
+            // So, no need for client-side aggregation (summarizedData logic removed).
+            let finalTableData = response; // Directly use the response
+
+            // Sort by tahunlulus to ensure correct order
+            finalTableData.sort((a, b) => a.tahunlulus - b.tahunlulus);
+
+            let tbody = '';
+            let totalJumlahlulusan = 0;
+            let totalTerlacaklulusan = 0;
+            let totalInfokom = 0;
+            let totalNonInfokom = 0;
+            let totalMultinasional = 0;
+            let totalNasional = 0;
+            let totalWirausaha = 0;
+
+            finalTableData.forEach(function(item) {
+                tbody += `
+                    <tr>
+                        <td>${item.tahunlulus}</td>
+                        <td>${item.jumlahlulusan}</td>
+                        <td>${item.terlacaklulusan}</td>
+                        <td>${item.infokom}</td>
+                        <td>${item.noninfokom}</td>
+                        <td>${item.multinasional}</td>
+                        <td>${item.nasional}</td>
+                        <td>${item.wirausaha}</td>
+                    </tr>
+                `;
+                totalJumlahlulusan += parseInt(item.jumlahlulusan) || 0;
+                totalTerlacaklulusan += parseInt(item.terlacaklulusan) || 0;
+                totalInfokom += parseInt(item.infokom) || 0;
+                totalNonInfokom += parseInt(item.noninfokom) || 0;
+                totalMultinasional += parseInt(item.multinasional) || 0;
+                totalNasional += parseInt(item.nasional) || 0;
+                totalWirausaha += parseInt(item.wirausaha) || 0;
+            });
+
+            // Add the "Jumlah" row
+            tbody += `
+                <tr style="font-weight: bold; background-color: #f2f2f2;">
+                    <td>Jumlah</td>
+                    <td>${totalJumlahlulusan}</td>
+                    <td>${totalTerlacaklulusan}</td>
+                    <td>${totalInfokom}</td>
+                    <td>${totalNonInfokom}</td>
+                    <td>${totalMultinasional}</td>
+                    <td>${totalNasional}</td>
+                    <td>${totalWirausaha}</td>
                 </tr>
             `;
-        });
-        $('#profesiTable tbody').html(tableBody);
-    },
-    error: function(err) {
-        alert("Gagal memuat data profesi.");
-    }
-});
 
+            $('#tabelAlumni tbody').html(tbody);
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX Error for Tabel Sebaran Profesi:", status, error);
+            // Handle error appropriately
+        }
+    });
+
+    // --- AJAX CALL 4: Tabel Rata-rata Masa Tunggu ---
+    $.ajax({
+        url: "{{ url('/admin/dashboard/average-waiting-time') }}",
+        method: 'GET',
+        success: function(response) {
+            console.log("Average Waiting Time Response:", response);
+
+            let tbody = '';
+            let totalJumlahlulusan = 0;
+            let totalTerlacaklulusan = 0;
+            let totalWeightedWaitingTime = 0; // Sum of (avg_time * count)
+            let totalWeightedWaitingCount = 0; // Sum of counts that contributed to avg_time
+
+            response.forEach(function(item) {
+                tbody += `
+                    <tr>
+                        <td>${item.tahunlulus}</td>
+                        <td>${item.jumlahlulusan}</td>
+                        <td>${item.terlacaklulusan}</td>
+                        <td>${item.rata_rata_waktu_tunggu_bulan}</td>
+                    </tr>
+                `;
+                totalJumlahlulusan += parseInt(item.jumlahlulusan) || 0;
+                totalTerlacaklulusan += parseInt(item.terlacaklulusan) || 0;
+
+                // For overall average: use raw numerical values from PHP if available
+                const avgTime = parseFloat(item.rata_rata_waktu_tunggu_bulan);
+                const trackedCount = parseInt(item.terlacaklulusan) || 0;
+
+                if (!isNaN(avgTime) && trackedCount > 0) {
+                    totalWeightedWaitingTime += avgTime * trackedCount;
+                    totalWeightedWaitingCount += trackedCount;
+                }
+            });
+
+            let overallAverageWaitingTime = 'N/A';
+            if (totalWeightedWaitingCount > 0) {
+                overallAverageWaitingTime = (totalWeightedWaitingTime / totalWeightedWaitingCount).toFixed(2);
+            }
+
+            // Add the "Jumlah" row
+            tbody += `
+                <tr style="font-weight: bold; background-color: #f2f2f2;">
+                    <td>Jumlah</td>
+                    <td>${totalJumlahlulusan}</td>
+                    <td>${totalTerlacaklulusan}</td>
+                    <td>${overallAverageWaitingTime}</td>
+                </tr>
+            `;
+
+            $('#tabelAverageWaitingTime tbody').html(tbody);
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX Error for Average Waiting Time:", status, error);
+            // Handle error appropriately
+        }
+    });
+
+    // --- AJAX CALL 5: Tabel Penilaian Kepuasan Pengguna Lulusan ---
+    $.ajax({
+        url: "{{ url('/admin/dashboard/alumni-satisfaction') }}",
+        method: 'GET',
+        success: function(response) {
+            console.log("Alumni Satisfaction Response:", response);
+
+            let tbody = '';
+            let no = 1;
+
+            let totalSangatBaikRaw = 0;
+            let totalBaikRaw = 0;
+            let totalCukupRaw = 0;
+            let totalKurangRaw = 0;
+            let skillCount = response.length;
+
+            response.forEach(function(item) {
+                tbody += `
+                    <tr>
+                        <td>${no++}</td>
+                        <td>${item.jenis_kemampuan}</td>
+                        <td>${item.sangat_baik_persen}</td>
+                        <td>${item.baik_persen}</td>
+                        <td>${item.cukup_persen}</td>
+                        <td>${item.kurang_persen}</td>
+                    </tr>
+                `;
+                totalSangatBaikRaw += item.sangat_baik_raw;
+                totalBaikRaw += item.baik_raw;
+                totalCukupRaw += item.cukup_raw;
+                totalKurangRaw += item.kurang_raw;
+            });
+
+            // Calculate overall averages for satisfaction percentages
+            let avgSangatBaik = (skillCount > 0) ? (totalSangatBaikRaw / skillCount).toFixed(2) + '%' : '0.00%';
+            let avgBaik = (skillCount > 0) ? (totalBaikRaw / skillCount).toFixed(2) + '%' : '0.00%';
+            let avgCukup = (skillCount > 0) ? (totalCukupRaw / skillCount).toFixed(2) + '%' : '0.00%';
+            let avgKurang = (skillCount > 0) ? (totalKurangRaw / skillCount).toFixed(2) + '%' : '0.00%';
+
+            // Add the "Jumlah" row
+            tbody += `
+                <tr style="font-weight: bold; background-color: #f2f2f2;">
+                    <td></td> <td>Jumlah</td>
+                    <td>${avgSangatBaik}</td>
+                    <td>${avgBaik}</td>
+                    <td>${avgCukup}</td>
+                    <td>${avgKurang}</td>
+                </tr>
+            `;
+
+            $('#tabelAlumniSatisfaction tbody').html(tbody);
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX Error for Alumni Satisfaction:", status, error);
+            // Handle error appropriately
+        }
+    });
 });
 </script>
 @endpush

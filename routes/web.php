@@ -31,7 +31,9 @@ Route::group([
     });
     Route::get('/dashboard/instansi-chart', [DashboardController::class, 'getInstansiChartData']);
     Route::get('/dashboard/profesi-chart', [DashboardController::class, 'getProfesiChart']);
-
+    Route::get('/dashboard/rekap-alumni', [DashboardController::class, 'getRekapAlumni']);
+    Route::get('/dashboard/average-waiting-time', [DashboardController::class, 'getAverageWaitingTime']);
+    Route::get('/dashboard/alumni-satisfaction', [DashboardController::class, 'getAlumniSatisfaction']);
 
 
     // === PROFESI ===
