@@ -178,6 +178,76 @@
                 </div>
             </div>
         </div>
+        <div class="col-xl-6 mt-4">
+            <div class="card mb-4 equal-height-card">
+                <div class="card-header">
+                    <i class="fas fa-chart-pie me-1"></i>Grafik Ulasan Kerjasama Tim
+                </div>
+                <div class="card-body">
+                    <canvas id="kerjaSamaChart" width="100%" height="40"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 mt-4">
+            <div class="card mb-4 equal-height-card">
+                <div class="card-header">
+                    <i class="fas fa-chart-pie me-1"></i>Grafik Ulasan Keahlian Dalam IT
+                </div>
+                <div class="card-body">
+                    <canvas id="keahlian" width="100%" height="40"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 mt-4">
+            <div class="card mb-4 equal-height-card">
+                <div class="card-header">
+                    <i class="fas fa-chart-pie me-1"></i>Grafik Ulasan Kemampuan Bahasa Asing(Inggris)
+                </div>
+                <div class="card-body">
+                    <canvas id="kemampuanBahasa" width="100%" height="40"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 mt-4">
+            <div class="card mb-4 equal-height-card">
+                <div class="card-header">
+                    <i class="fas fa-chart-pie me-1"></i>Grafik Ulasan Kemampuan Komunikasi
+                </div>
+                <div class="card-body">
+                    <canvas id="kemampuanKomunikasi" width="100%" height="40"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 mt-4">
+            <div class="card mb-4 equal-height-card">
+                <div class="card-header">
+                    <i class="fas fa-chart-pie me-1"></i>Grafik Ulasan Penggembangan Diri
+                </div>
+                <div class="card-body">
+                    <canvas id="pengembanaganDiri" width="100%" height="40"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 mt-4">
+            <div class="card mb-4 equal-height-card">
+                <div class="card-header">
+                    <i class="fas fa-chart-pie me-1"></i>Grafik Ulasan Kepemimpinan
+                </div>
+                <div class="card-body">
+                    <canvas id="kepemimpinan" width="100%" height="40"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 offset-xl-3 mt-4">
+    <div class="card mb-4 equal-height-card">
+        <div class="card-header">
+            <i class="fas fa-chart-pie me-1"></i>Grafik Ulasan Etos Kerja
+        </div>
+        <div class="card-body">
+            <canvas id="etosKerja" width="100%" height="40"></canvas>
+        </div>
+    </div>
+</div>
     </div> {{-- Close the row div that contains all tables --}}
 </div>
 @endsection
@@ -239,25 +309,6 @@ $(document).ready(function () {
                     legend: { display: true, position: 'bottom' }
                 }
             });
-
-            // Table data for Instansi (Assuming you have a table with id="instansiTable")
-            // Note: Your HTML snippet for tables did not include a specific table for "Instansi",
-            // only for "Alumni", "Average Waiting Time", and "Satisfaction".
-            // If you need a table for Instansi data, you'll need to add its HTML structure.
-            // For now, I'm commenting out the table population part to avoid errors if the table doesn't exist.
-            /*
-            let tableBodyInstansi = '';
-            response.forEach((item, index) => {
-                tableBodyInstansi += `
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td>${item.jenis_instansi}</td>
-                        <td>${item.total}</td>
-                    </tr>
-                `;
-            });
-            $('#instansiTable tbody').html(tableBodyInstansi);
-            */
         },
         error: function(xhr, status, error) {
             console.error('AJAX Error for Instansi Chart:', status, error);
@@ -295,22 +346,6 @@ $(document).ready(function () {
                     legend: { display: true, position: 'bottom' }
                 }
             });
-
-            // Table data for Profesi (Assuming you have a table with id="profesiTable")
-            // Similar to Instansi, commenting out table population if the HTML table structure is missing.
-            /*
-            let tableBodyProfesi = '';
-            response.forEach((p, i) => {
-                tableBodyProfesi += `
-                    <tr>
-                        <td>${i + 1}</td>
-                        <td>${p.profesi}</td>
-                        <td>${p.total}</td>
-                    </tr>
-                `;
-            });
-            $('#profesiTable tbody').html(tableBodyProfesi);
-            */
         },
         error: function(err) {
             console.error("AJAX Error for Profesi Chart:", err);
@@ -498,6 +533,399 @@ $(document).ready(function () {
         error: function(xhr, status, error) {
             console.error("AJAX Error for Alumni Satisfaction:", status, error);
             // Handle error appropriately
+        }
+    });
+    
+$.ajax({
+    url: "{{ url('admin/dashboard/kerjasama-chart') }}",
+    method: 'GET',
+    success: function(response) {
+        console.log("Kerja Sama Response:", response);
+
+        const labels = ['Sangat Baik', 'Baik', 'Cukup', 'Kurang'];
+        const dataMap = {
+            'Sangat Baik': 0,
+            'Baik': 0,
+            'Cukup': 0,
+            'Kurang': 0
+        };
+
+        if (Array.isArray(response) && response.length > 0) {
+            response.forEach(item => {
+                if (dataMap.hasOwnProperty(item.tingkat_kepuasan)) {
+                    dataMap[item.tingkat_kepuasan] = item.jumlah_responden_per_tingkat;
+                }
+            });
+        }
+
+        const dataValues = labels.map(label => dataMap[label]);
+
+        const canvas = document.getElementById('kerjaSamaChart'); // pastikan ini sesuai ID di HTML
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Jumlah Responden',
+                        data: dataValues,
+                        backgroundColor: ['#007bff', '#ffc107', '#28a745', '#dc3545']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Tingkat Kepuasan terhadap Kerja Sama'
+                        }
+                    }
+                }
+            });
+        } else {
+            console.error("Element #kerjaSamaChart tidak ditemukan di halaman.");
+        }
+    },
+    error: function(xhr, status, error) {
+        console.error('AJAX Error for Kerjasama Chart:', status, error);
+    }
+});
+$.ajax({
+        url: "{{ url('admin/dashboard/keahlian-chart') }}",
+        method: 'GET',
+        success: function(response) {
+            console.log("Keahlian Chart Response:", response);
+
+            const labels = ['Sangat Baik', 'Baik', 'Cukup', 'Kurang'];
+            const dataMap = {
+                'Sangat Baik': 0,
+                'Baik': 0,
+                'Cukup': 0,
+                'Kurang': 0
+            };
+
+            response.forEach(item => {
+                if (dataMap.hasOwnProperty(item.tingkat_kepuasan)) {
+                    dataMap[item.tingkat_kepuasan] = item.jumlah_responden_per_tingkat;
+                }
+            });
+
+            const dataValues = labels.map(label => dataMap[label]);
+
+            const canvas = document.getElementById('keahlian');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Jumlah Responden',
+                            data: dataValues,
+                            backgroundColor: ['#007bff', '#ffc107', '#28a745', '#dc3545']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'bottom'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Tingkat Kepuasan terhadap Keahlian Dalam IT'
+                            }
+                        }
+                    }
+                });
+            } else {
+                console.error("Element #keahlian tidak ditemukan di halaman.");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX Error for Keahlian Chart:', status, error);
+        }
+    });
+$.ajax({
+        url: "{{ url('admin/dashboard/kemampuan-bahasa-chart') }}",
+        method: 'GET',
+        success: function(response) {
+            console.log("Bahasa Chart Response:", response);
+
+            const labels = ['Sangat Baik', 'Baik', 'Cukup', 'Kurang'];
+            const dataMap = {
+                'Sangat Baik': 0,
+                'Baik': 0,
+                'Cukup': 0,
+                'Kurang': 0
+            };
+
+            response.forEach(item => {
+                if (dataMap.hasOwnProperty(item.tingkat_kepuasan)) {
+                    dataMap[item.tingkat_kepuasan] = item.jumlah_responden_per_tingkat;
+                }
+            });
+
+            const dataValues = labels.map(label => dataMap[label]);
+
+            const canvas = document.getElementById('kemampuanBahasa');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Jumlah Responden',
+                            data: dataValues,
+                            backgroundColor: ['#007bff', '#ffc107', '#28a745', '#dc3545']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'bottom'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Tingkat Kepuasan terhadap Kemampuan Bahasa Asing (Inggris)'
+                            }
+                        }
+                    }
+                });
+            } else {
+                console.error("Element #kemampuanBahasa tidak ditemukan di halaman.");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX Error for Bahasa Chart:', status, error);
+        }
+    });
+$.ajax({
+        url: "{{ url('admin/dashboard/kemampuan-komunikasi-chart') }}",
+        method: 'GET',
+        success: function(response) {
+            console.log("Komunikasi Chart Response:", response);
+
+            const labels = ['Sangat Baik', 'Baik', 'Cukup', 'Kurang'];
+            const dataMap = {
+                'Sangat Baik': 0,
+                'Baik': 0,
+                'Cukup': 0,
+                'Kurang': 0
+            };
+
+            response.forEach(item => {
+                if (dataMap.hasOwnProperty(item.tingkat_kepuasan)) {
+                    dataMap[item.tingkat_kepuasan] = item.jumlah_responden_per_tingkat;
+                }
+            });
+
+            const dataValues = labels.map(label => dataMap[label]);
+
+            const canvas = document.getElementById('kemampuanKomunikasi');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Jumlah Responden',
+                            data: dataValues,
+                            backgroundColor: ['#007bff', '#ffc107', '#28a745', '#dc3545']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'bottom'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Tingkat Kepuasan terhadap Kemampuan Komunikasi'
+                            }
+                        }
+                    }
+                });
+            } else {
+                console.error("Element #kemampuanKomunikasi tidak ditemukan di halaman.");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX Error for Komunikasi Chart:', status, error);
+        }
+    });
+$.ajax({
+        url: "{{ url('admin/dashboard/pengembangan-diri-chart') }}",
+        method: 'GET',
+        success: function(response) {
+            console.log("Pengembangan Diri Chart Response:", response);
+
+            const labels = ['Sangat Baik', 'Baik', 'Cukup', 'Kurang'];
+            const dataMap = {
+                'Sangat Baik': 0,
+                'Baik': 0,
+                'Cukup': 0,
+                'Kurang': 0
+            };
+
+            response.forEach(item => {
+                if (dataMap.hasOwnProperty(item.tingkat_kepuasan)) {
+                    dataMap[item.tingkat_kepuasan] = item.jumlah_responden_per_tingkat;
+                }
+            });
+
+            const dataValues = labels.map(label => dataMap[label]);
+
+            const canvas = document.getElementById('pengembanaganDiri');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Jumlah Responden',
+                            data: dataValues,
+                            backgroundColor: ['#007bff', '#ffc107', '#28a745', '#dc3545']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'bottom'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Tingkat Kepuasan terhadap Pengembangan Diri'
+                            }
+                        }
+                    }
+                });
+            } else {
+                console.error("Element #pengembanaganDiri tidak ditemukan di halaman.");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX Error for Pengembangan Diri Chart:', status, error);
+        }
+    });
+$.ajax({
+        url: "{{ url('admin/dashboard/kepemimpinan-chart') }}",
+        method: 'GET',
+        success: function(response) {
+            console.log("Kepemimpinan Chart Response:", response);
+
+            const labels = ['Sangat Baik', 'Baik', 'Cukup', 'Kurang'];
+            const dataMap = {
+                'Sangat Baik': 0,
+                'Baik': 0,
+                'Cukup': 0,
+                'Kurang': 0
+            };
+
+            response.forEach(item => {
+                if (dataMap.hasOwnProperty(item.tingkat_kepuasan)) {
+                    dataMap[item.tingkat_kepuasan] = item.jumlah_responden_per_tingkat;
+                }
+            });
+
+            const dataValues = labels.map(label => dataMap[label]);
+
+            const canvas = document.getElementById('kepemimpinan');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Jumlah Responden',
+                            data: dataValues,
+                            backgroundColor: ['#007bff', '#ffc107', '#28a745', '#dc3545']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'bottom'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Tingkat Kepuasan terhadap Kepemimpinan'
+                            }
+                        }
+                    }
+                });
+            } else {
+                console.error("Element #kepemimpinan tidak ditemukan di halaman.");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX Error for Kepemimpinan Chart:', status, error);
+        }
+    });
+$.ajax({
+        url: "{{ url('admin/dashboard/etos-kerja-chart') }}",
+        method: 'GET',
+        success: function(response) {
+            const labels = ['Sangat Baik', 'Baik', 'Cukup', 'Kurang'];
+            const dataMap = {
+                'Sangat Baik': 0,
+                'Baik': 0,
+                'Cukup': 0,
+                'Kurang': 0
+            };
+
+            response.forEach(item => {
+                if (dataMap.hasOwnProperty(item.tingkat_kepuasan)) {
+                    dataMap[item.tingkat_kepuasan] = item.jumlah_responden_per_tingkat;
+                }
+            });
+
+            const ctx = document.getElementById('etosKerja').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Jumlah Responden',
+                        data: labels.map(label => dataMap[label]),
+                        backgroundColor: ['#007bff', '#ffc107', '#28a745', '#dc3545']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Tingkat Kepuasan terhadap Etos Kerja'
+                        }
+                    }
+                }
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX Error for Etos Kerja Chart:', status, error);
         }
     });
 });

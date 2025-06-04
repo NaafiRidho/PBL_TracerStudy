@@ -34,7 +34,13 @@ Route::group([
     Route::get('/dashboard/rekap-alumni', [DashboardController::class, 'getRekapAlumni']);
     Route::get('/dashboard/average-waiting-time', [DashboardController::class, 'getAverageWaitingTime']);
     Route::get('/dashboard/alumni-satisfaction', [DashboardController::class, 'getAlumniSatisfaction']);
-
+    Route::get('/dashboard/kerjasama-chart', [DashboardController::class, 'getKerjaSama']);
+    Route::get('/dashboard/keahlian-chart', [DashboardController::class, 'keahlianChart']);
+    Route::get('/dashboard/kemampuan-bahasa-chart', [DashboardController::class, 'kemampuanBahasaChart']);
+    Route::get('/dashboard/kemampuan-komunikasi-chart', [DashboardController::class, 'kemampuanKomunikasiChart']);
+    Route::get('/dashboard/pengembangan-diri-chart', [DashboardController::class, 'pengembanganDiriChart']);
+    Route::get('/dashboard/kepemimpinan-chart', [DashboardController::class, 'kepemimpinanChart']);
+    Route::get('/dashboard/etos-kerja-chart', [DashboardController::class, 'etosKerjaChart']);
 
     // === PROFESI ===
     Route::prefix('profesi')->group(function () {

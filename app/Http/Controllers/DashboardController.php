@@ -117,6 +117,7 @@ class DashboardController extends Controller
                 jawaban AS j
             JOIN
                 pertanyaan AS p ON p.pertanyaan_id = j.pertanyaan_id
+            WHERE p.pertanyaan_id NOT IN (8,9)
             GROUP BY
                 p.pertanyaan_id, p.pertanyaan -- Group by both ID and text to ensure correct grouping and ordering
             ORDER BY
@@ -147,5 +148,164 @@ class DashboardController extends Controller
         }
 
         return response()->json($formattedResults);
+    }
+    public function getKerjaSama()
+    {
+        $results = DB::select("
+        SELECT
+    p.pertanyaan AS jenis_kemampuan,
+    j.jawaban AS tingkat_kepuasan,
+    COUNT(j.jawaban_id) AS jumlah_responden_per_tingkat
+FROM
+    jawaban AS j
+JOIN
+    pertanyaan AS p ON j.pertanyaan_id = p.pertanyaan_id
+WHERE
+	p.pertanyaan_id = 1 
+  AND j.jawaban IN ('Sangat Baik', 'Baik', 'Cukup', 'Kurang') -- Ensure only valid satisfaction levels are counted
+GROUP BY
+    p.pertanyaan,
+    j.jawaban
+ORDER BY
+    p.pertanyaan,
+    CASE j.jawaban
+        WHEN 'Sangat Baik' THEN 1
+        WHEN 'Baik' THEN 2
+        WHEN 'Cukup' THEN 3
+        WHEN 'Kurang' THEN 4
+        ELSE 5
+    END;");
+        return response()->json($results);
+    }
+
+    public function keahlianChart()
+    {
+        $data = DB::table('jawaban as j')
+            ->join('pertanyaan as p', 'j.pertanyaan_id', '=', 'p.pertanyaan_id')
+            ->select('p.pertanyaan as jenis_kemampuan', 'j.jawaban as tingkat_kepuasan', DB::raw('COUNT(j.jawaban_id) as jumlah_responden_per_tingkat'))
+            ->where('p.pertanyaan_id', 2)
+            ->whereIn('j.jawaban', ['Sangat Baik', 'Baik', 'Cukup', 'Kurang'])
+            ->groupBy('p.pertanyaan', 'j.jawaban')
+            ->orderByRaw("
+            CASE j.jawaban
+                WHEN 'Sangat Baik' THEN 1
+                WHEN 'Baik' THEN 2
+                WHEN 'Cukup' THEN 3
+                WHEN 'Kurang' THEN 4
+                ELSE 5
+            END
+        ")
+            ->get();
+
+        return response()->json($data);
+    }
+    public function kemampuanBahasaChart()
+    {
+        $data = DB::table('jawaban as j')
+            ->join('pertanyaan as p', 'j.pertanyaan_id', '=', 'p.pertanyaan_id')
+            ->select('p.pertanyaan as jenis_kemampuan', 'j.jawaban as tingkat_kepuasan', DB::raw('COUNT(j.jawaban_id) as jumlah_responden_per_tingkat'))
+            ->where('p.pertanyaan_id', 3)
+            ->whereIn('j.jawaban', ['Sangat Baik', 'Baik', 'Cukup', 'Kurang'])
+            ->groupBy('p.pertanyaan', 'j.jawaban')
+            ->orderByRaw("
+            CASE j.jawaban
+                WHEN 'Sangat Baik' THEN 1
+                WHEN 'Baik' THEN 2
+                WHEN 'Cukup' THEN 3
+                WHEN 'Kurang' THEN 4
+                ELSE 5
+            END
+        ")
+            ->get();
+
+        return response()->json($data);
+    }
+    public function kemampuanKomunikasiChart()
+    {
+        $data = DB::table('jawaban as j')
+            ->join('pertanyaan as p', 'j.pertanyaan_id', '=', 'p.pertanyaan_id')
+            ->select('p.pertanyaan as jenis_kemampuan', 'j.jawaban as tingkat_kepuasan', DB::raw('COUNT(j.jawaban_id) as jumlah_responden_per_tingkat'))
+            ->where('p.pertanyaan_id', 4)
+            ->whereIn('j.jawaban', ['Sangat Baik', 'Baik', 'Cukup', 'Kurang'])
+            ->groupBy('p.pertanyaan', 'j.jawaban')
+            ->orderByRaw("
+            CASE j.jawaban
+                WHEN 'Sangat Baik' THEN 1
+                WHEN 'Baik' THEN 2
+                WHEN 'Cukup' THEN 3
+                WHEN 'Kurang' THEN 4
+                ELSE 5
+            END
+        ")
+            ->get();
+
+        return response()->json($data);
+    }
+    public function pengembanganDiriChart()
+    {
+        $data = DB::table('jawaban as j')
+            ->join('pertanyaan as p', 'j.pertanyaan_id', '=', 'p.pertanyaan_id')
+            ->select('p.pertanyaan as jenis_kemampuan', 'j.jawaban as tingkat_kepuasan', DB::raw('COUNT(j.jawaban_id) as jumlah_responden_per_tingkat'))
+            ->where('p.pertanyaan_id', 5)
+            ->whereIn('j.jawaban', ['Sangat Baik', 'Baik', 'Cukup', 'Kurang'])
+            ->groupBy('p.pertanyaan', 'j.jawaban')
+            ->orderByRaw("
+            CASE j.jawaban
+                WHEN 'Sangat Baik' THEN 1
+                WHEN 'Baik' THEN 2
+                WHEN 'Cukup' THEN 3
+                WHEN 'Kurang' THEN 4
+                ELSE 5
+            END
+        ")
+            ->get();
+
+        return response()->json($data);
+    }
+    public function kepemimpinanChart()
+    {
+        $data = DB::table('jawaban as j')
+            ->join('pertanyaan as p', 'j.pertanyaan_id', '=', 'p.pertanyaan_id')
+            ->select('p.pertanyaan as jenis_kemampuan', 'j.jawaban as tingkat_kepuasan', DB::raw('COUNT(j.jawaban_id) as jumlah_responden_per_tingkat'))
+            ->where('p.pertanyaan_id', 6)
+            ->whereIn('j.jawaban', ['Sangat Baik', 'Baik', 'Cukup', 'Kurang'])
+            ->groupBy('p.pertanyaan', 'j.jawaban')
+            ->orderByRaw("
+            CASE j.jawaban
+                WHEN 'Sangat Baik' THEN 1
+                WHEN 'Baik' THEN 2
+                WHEN 'Cukup' THEN 3
+                WHEN 'Kurang' THEN 4
+                ELSE 5
+            END
+        ")
+            ->get();
+
+        return response()->json($data);
+    }
+    public function etosKerjaChart()
+    {
+        $data = DB::table('jawaban as j')
+            ->join('pertanyaan as p', 'j.pertanyaan_id', '=', 'p.pertanyaan_id')
+            ->select(
+                'p.pertanyaan as jenis_kemampuan',
+                'j.jawaban as tingkat_kepuasan',
+                DB::raw('COUNT(j.jawaban_id) as jumlah_responden_per_tingkat')
+            )
+            ->where('p.pertanyaan_id', 7)
+            ->whereIn('j.jawaban', ['Sangat Baik', 'Baik', 'Cukup', 'Kurang'])
+            ->groupBy('p.pertanyaan', 'j.jawaban')
+            ->orderByRaw("
+            CASE j.jawaban
+                WHEN 'Sangat Baik' THEN 1
+                WHEN 'Baik' THEN 2
+                WHEN 'Cukup' THEN 3
+                WHEN 'Kurang' THEN 4
+                ELSE 5
+            END
+        ")
+            ->get();
+
+        return response()->json($data);
     }
 }
