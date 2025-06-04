@@ -4,6 +4,9 @@ use App\Http\Controllers\ManajemenAlumniController;
 use App\Http\Controllers\ProfesiController;
 use App\Http\Controllers\PertanyaanController;
 use App\Http\Controllers\PenggunaLulusanController;
+use App\Http\Controllers\SurveiController;
+use App\Http\Controllers\JawabanSurveiController;
+use App\Models\PertanyaanModel;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -64,3 +67,8 @@ Route::group(['prefix' => 'penggunaLulusan'], function () {
 Route::get('/', function () {
     return view('layoutLandingPage.hero');
 });
+
+Route::get('/survei', [PertanyaanController::class, 'getPertanyaan']);
+Route::get('/kuesioner', [SurveiController::class, 'create']);
+Route::post('/jawaban', [SurveiController::class, 'simpanJawaban']);
+// Route::post('/jawaban', [JawabanSurveiController::class, 'store']);

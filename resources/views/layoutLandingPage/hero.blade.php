@@ -18,7 +18,7 @@
                     <a href="#" class="btn btn-light rounded-pill px-4 py-3 fw-bold shadow-sm hover-scale" style="color: #004aad;">
                         <i class="fas fa-user-graduate me-2"></i> Isi Tracer Alumni
                     </a>
-                    <a href="/login" class="btn btn-outline-light rounded-pill px-4 py-3 fw-bold hover-scale border-2">
+                    <a href="/kuesioner" class="btn btn-outline-light rounded-pill px-4 py-3 fw-bold hover-scale border-2">
                         <i class="fas fa-building me-2"></i> Tracer Stakeholder
                     </a>
                 </div>
