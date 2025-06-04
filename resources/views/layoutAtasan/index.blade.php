@@ -1,10 +1,11 @@
-{{-- {{ dd($alumni) }} cek apakah variabel alumni sudah dibuat dan database alumni tidak empty --}}
+{{-- {{ dd($atasan) }} cek apakah variabel alumni sudah dibuat dan database alumni tidak empty --}}
 <!DOCTYPE html>
 <html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Survei Kepuasan Pengguna Lulusan</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -82,59 +83,57 @@
                 <i class="fas fa-poll me-1"></i> Form Survei Kepuasan
             </div>
             <div class="card-body">
-                <form id="form-survei" method="POST" action="/jawaban">
+                <form id="formSurvei" method="POST" action="{{ url('/jawaban') }}">
                     @csrf
                     <!-- Section 1: Identitas Responden -->
                     <fieldset class="mb-4">
                         <legend class="h5 text-primary border-bottom pb-2 mb-3">
                             <i class="fas fa-user-tie me-2"></i>Identitas Responden
                         </legend>
-                        <div class="row g-3">
-                            <!-- Nama Alumni (dropdown) -->
-                            <div class="col-md-12">
-                                <label for="alumni_id" class="form-label">Nama Alumni</label>
-                                <select id="alumni_id" name="alumni_id" class="form-select" required>
-                                    <option value="">-- Pilih Alumni --</option>
-                                    @foreach($alumni as $a)
-                                        <option value="{{ $a->alumni_id }}" data-nama="{{ $a->atasan->nama ?? '' }}"
-                                            data-email="{{ $a->atasan->email ?? '' }}"
-                                            data-instansi="{{ $a->atasan->instansi ?? '' }}"
-                                            data-jabatan="{{ $a->atasan->jabatan ?? '' }}" data-prodi="{{ $a->prodi }}"
-                                            data-tahun_lulus="{{ $a->tanggal_lulus ?? '' }}">
-                                            {{ $a->nama_alumni }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
 
-                            <!-- Form Fields -->
-                            <div class="col-md-6">
-                                <label for="nama" class="form-label">Nama Lengkap</label>
-                                <input type="text" id="nama" name="nama_atasan" class="form-control" required>
-                                
+                        <div class="row g-3">
+                            <input type="hidden" name="alumni_id" value="{{ $alumni->alumni_id }}">
+                            <input type="hidden" name="atasan_id" value="{{ $alumni->atasan->id ?? '' }}">
+                            <input type="hidden" name="nama_atasan" value="{{ $alumni->atasan->nama_atasan ?? '' }}">
+                            <input type="hidden" name="email_atasan" value="{{ $alumni->atasan->email_atasan ?? '' }}">
+                            <input type="hidden" name="nama_instansi"
+                                value="{{ $alumni->atasan->nama_instansi ?? '' }}">
+                            <input type="hidden" name="jabatan_atasan" value="{{ $alumni->atasan->jabatan ?? '' }}">
+                            <input type="hidden" name="prodi" value="{{ $alumni->prodi }}">
+                            <input type="hidden" name="tahun_lulus" value="{{ $alumni->tanggal_lulus }}">
+                            <div class="col-md-12">
+                                <label class="form-label">Nama Alumni</label>
+                                <input type="text" class="form-control" value="{{ $alumni->nama_alumni }}" readonly>
                             </div>
                             <div class="col-md-6">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" id="email" name="email_atasan" class="form-control" required>
+                                <label class="form-label">Nama Atasan</label>
+                                <input type="text" class="form-control" value="{{ $alumni->atasan->nama_atasan ?? '' }}"
+                                    readonly>
                             </div>
                             <div class="col-md-6">
-                                <label for="instansi" class="form-label">Instansi/Perusahaan</label>
-                                <input type="text" id="instansi" name="nama_instansi" class="form-control" required>
+                                <label class="form-label">Email Atasan</label>
+                                <input type="email" class="form-control"
+                                    value="{{ $alumni->atasan->email_atasan ?? '' }}" readonly>
                             </div>
                             <div class="col-md-6">
-                                <label for="jabatan" class="form-label">Jabatan</label>
-                                <input type="text" id="jabatan" name="jabatan" class="form-control" required>
+                                <label class="form-label">Instansi</label>
+                                <input type="text" class="form-control"
+                                    value="{{ $alumni->atasan->nama_instansi ?? '' }}" readonly>
                             </div>
                             <div class="col-md-6">
-                                <label for="prodi" class="form-label">Program Studi</label>
-                                <input type="text" id="prodi" name="prodi" class="form-control" readonly>
+                                <label class="form-label">Jabatan</label>
+                                <input type="text" class="form-control" value="{{ $alumni->atasan->jabatan ?? '' }}"
+                                    readonly>
                             </div>
                             <div class="col-md-6">
-                                <label for="tahun_lulus" class="form-label">Tahun Lulus</label>
-                                <input type="text" id="tahun_lulus" name="tahun_lulus" class="form-control" readonly>
+                                <label class="form-label">Program Studi</label>
+                                <input type="text" class="form-control" value="{{ $alumni->prodi }}" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Tahun Lulus</label>
+                                <input type="text" class="form-control" value="{{ $alumni->tanggal_lulus }}" readonly>
                             </div>
                         </div>
-
                     </fieldset>
 
                     <!-- Section 2: Penilaian Kompetensi (Dynamic Questions) -->
@@ -183,15 +182,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        document.getElementById('alumni_id').addEventListener('change', function () {
-            const selected = this.options[this.selectedIndex];
-            document.getElementById('nama').value = selected.getAttribute('data-nama') || '';
-            document.getElementById('email').value = selected.getAttribute('data-email') || '';
-            document.getElementById('instansi').value = selected.getAttribute('data-instansi') || '';
-            document.getElementById('jabatan').value = selected.getAttribute('data-jabatan') || '';
-            document.getElementById('prodi').value = selected.getAttribute('data-prodi') || '';
-            document.getElementById('tahun_lulus').value = selected.getAttribute('data-tahun_lulus') || '';
-        });
+
 
         $(document).ready(function () {
             // Ambil pertanyaan dari database via AJAX
@@ -231,39 +222,48 @@
                 $('#questions-container').html(html);
             });
 
-
-            // Validasi dan submit survei via AJAX
-            $('#form-survei').on('submit', function (e) {
+            $('#formSurvei').on('submit', function (e) {
                 e.preventDefault();
-                console.log('Form submit intercepted');
-                let form = this;
-                if (!form.checkValidity()) {
-                    form.classList.add('was-validated');
-                    return;
-                }
 
-                let formData = $(form).serialize();
+                const formData = new FormData(this);
+
+                // Disable tombol submit agar tidak double submit
+                const $submitBtn = $(this).find('button[type="submit"]');
+                $submitBtn.prop('disabled', true).text('Mengirim...');
 
                 $.ajax({
-                    url: '/jawaban',
-                    type: 'POST',  // ganti method jadi type, untuk kompatibilitas
+                    url: "{{ url('/jawaban') }}",
+                    type: 'POST',
                     data: formData,
+                    processData: false,
+                    contentType: false,
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function (res) {
                         if (res.success) {
                             alert(res.message);
-                            form.reset();
-                            form.classList.remove('was-validated');
-                            $('#questions-container').empty();
+                            window.location.href = "{{ url('/thank-you') }}";
                         } else {
-                            alert('Gagal menyimpan survei.');
+                            alert(res.message || 'Gagal menyimpan survei.');
                         }
                     },
                     error: function (xhr) {
-                        console.log(xhr.responseText);
-                        alert('Terjadi kesalahan saat mengirim survei.');
+                        const errors = xhr.responseJSON?.errors;
+                        if (errors) {
+                            let errorMessages = [];
+                            for (const field in errors) {
+                                errorMessages.push(errors[field].join('\n'));
+                            }
+                            alert('Validation errors:\n' + errorMessages.join('\n'));
+                        } else {
+                            console.error(xhr.responseText);
+                            alert('Terjadi kesalahan saat mengirim survei.');
+                        }
+                    },
+                    complete: function () {
+                        // Enable tombol submit kembali
+                        $submitBtn.prop('disabled', false).text('Kirim Survei');
                     }
                 });
             });

@@ -10,10 +10,11 @@ use App\Models\AtasanModel;
 
 class SurveiController extends Controller
 {
-    public function create()
+    public function create($alumni_id)
     {
-        $alumni = AlumniModel::all(); // atau pakai model: Alumni::all()
-        return view('layoutAtasan.index', compact('alumni'));
+        $alumni = AlumniModel::with('atasan')->findOrFail($alumni_id);
+        $atasan = $alumni->atasan; // satu objek atasan, bukan collection
+        return view('layoutAtasan.index', compact('alumni', 'atasan'));
     }
 
     // Mengambil semua pertanyaan
@@ -30,43 +31,44 @@ class SurveiController extends Controller
 
     // Menyimpan jawaban survei
 
-    public function simpanJawaban(Request $request)
+
+    // Menyimpan jawaban survei
+    public function store(Request $request)
     {
+        // Validasi input
         $request->validate([
-            'nama' => 'required',
-            'email' => 'required|email',
-            'instansi' => 'required',
-            'jabatan' => 'required',
+            'alumni_id' => 'required|exists:alumni,alumni_id',
+            'atasan_id' => 'required|exists:atasan,atasan_id', // gunakan atasan_id, bukan data atasan lain
             'jawaban' => 'required|array',
-            // validasi data atasan
-            'nama_atasan' => 'required',
-            'nama_instansi' => 'required',
-            'jabatan_atasan' => 'required',
-            'email_atasan' => 'required|email',
-            'no_hp_atasan' => 'required',
+            'jawaban.*' => 'required|in:1,2,3,4',
+            'kompetensi_tambahan' => 'nullable|string',
+            'saran_kurikulum' => 'nullable|string',
         ]);
 
-        // Simpan data atasan ke tabel atasan
-        $atasan = AtasanModel::create([
-            'nama_atasan' => $request->nama_atasan,
-            'nama_instansi' => $request->nama_instansi,
-            'jabatan' => $request->jabatan_atasan,
-            'email_atasan' => $request->email_atasan,
-            'no_hp_atasan' => $request->no_hp_atasan,
-            // tambahkan user_id jika perlu
-        ]);
+        try {
+            $atasanId = $request->atasan_id; // ambil atasan_id yang sudah ada
 
-        // Simpan jawaban survei
-        foreach ($request->jawaban as $id_pertanyaan => $nilai) {
-            JawabanSurveiModel::create([
-                'pertanyaan_id' => $id_pertanyaan,
-                'alumni_id' => $request->alumni_id,
-                'atasan_id' => $atasan->atasan_id, // gunakan id hasil insert
-                'jawaban' => $nilai,
+            // Simpan setiap jawaban survei
+            foreach ($request->jawaban as $pertanyaan_id => $nilai) {
+                JawabanSurveiModel::create([
+                    'pertanyaan_id' => $pertanyaan_id,
+                    'alumni_id' => $request->alumni_id,
+                    'atasan_id' => $atasanId,
+                    'jawaban' => $nilai,
+                    'kompetensi_tambahan' => $request->kompetensi_tambahan,
+                    'saran_kurikulum' => $request->saran_kurikulum,
+                ]);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Survei berhasil disimpan.'
             ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat menyimpan survei: ' . $e->getMessage()
+            ], 500);
         }
-
-        return response()->json(['success' => true, 'message' => 'Survei berhasil disimpan!']);
     }
-
 }

@@ -68,7 +68,7 @@ Route::get('/', function () {
     return view('layoutLandingPage.hero');
 });
 
+Route::get('/atasan/survei/{id}', [SurveiController::class, 'create']);
 Route::get('/survei', [PertanyaanController::class, 'getPertanyaan']);
-Route::get('/kuesioner', [SurveiController::class, 'create']);
-Route::post('/jawaban', [SurveiController::class, 'simpanJawaban']);
+Route::post('/jawaban', [SurveiController::class, 'store']);
 // Route::post('/jawaban', [JawabanSurveiController::class, 'store']);
