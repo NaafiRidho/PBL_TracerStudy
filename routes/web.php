@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ManajemenAlumniController;
 use App\Http\Controllers\ProfesiController;
 use App\Http\Controllers\PertanyaanController;
+use App\Http\Controllers\ExportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -81,4 +82,8 @@ Route::group([
         Route::get('/{id}/delete_ajax', [PertanyaanController::class, 'confirm_ajax']);
         Route::delete('/{id}/delete_ajax', [PertanyaanController::class, 'delete_ajax']);
     });
+
+    // === Export Rekap Alumni belum Mengisi ===
+    Route::get('/alumni-belum-mengisi', [ExportController::class, 'showAlumniBelumMengisi'])->name('admin.alumni-belum');
+    Route::get('/rekap/export/excel', [ExportController::class, 'exportExcel'])->name('admin.export.excel');
 });
