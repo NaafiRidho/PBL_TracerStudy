@@ -86,4 +86,9 @@ Route::group([
     // === Export Rekap Alumni belum Mengisi ===
     Route::get('/alumni-belum-mengisi', [ExportController::class, 'showAlumniBelumMengisi'])->name('admin.alumni-belum');
     Route::get('/rekap/export/excel', [ExportController::class, 'exportExcel'])->name('admin.export.excel');
+
+    // === Export Rekap Pengguna Lulusan belum Mengisi ===
+    Route::get('/atasan/belum-mengisi', [ExportController::class, 'showAtasanBelumMengisi']);
+    Route::get('/atasan/export/excel', [ExportController::class, 'exportExcelAtasanBelumMengisi']);
+
 });

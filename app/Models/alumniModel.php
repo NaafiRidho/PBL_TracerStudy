@@ -9,7 +9,7 @@ class alumniModel extends Model
 {
     use HasFactory;
     protected $table = 'alumni';
-     protected $primaryKey = 'alumni_id';
+    protected $primaryKey = 'alumni_id';
     protected $fillable = [
         'user_id',
         'atasan_id',

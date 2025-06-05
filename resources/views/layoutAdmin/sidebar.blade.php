@@ -29,7 +29,7 @@
                                 <a class="nav-link" href="{{ url('/admin/alumni-belum-mengisi') }}">
                                     <i class="fas fa-user-graduate me-2"></i> Rekap Alumni
                                 </a>
-                                <a class="nav-link" href="{{ url('/admin/atasan-belum-mengisi') }}">
+                                <a class="nav-link" href="{{ url('/admin/atasan/belum-mengisi') }}">
                                     <i class="fas fa-user-tie me-2"></i> Rekap Atasan
                                 </a>
                             </nav>

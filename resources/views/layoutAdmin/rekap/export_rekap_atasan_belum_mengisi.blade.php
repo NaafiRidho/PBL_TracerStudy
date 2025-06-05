@@ -10,7 +10,7 @@
         <div class="card mb-4">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <span class="fs-5"><i class="fas fa-building me-2"></i> Daftar Pengguna Belum Mengisi</span>
-                <a href="{{ url('/admin/pengguna/export/excel') }}" class="btn btn-success px-4 py-2 fs-6">
+                <a href="{{ url('/admin/atasan/export/excel') }}" class="btn btn-success px-4 py-2 fs-6">
                     <i class="fas fa-file-export me-2"></i> Export
                 </a>
             </div>
@@ -31,14 +31,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($pengguna as $index => $item)
+                            @forelse ($atasan as $index => $item)
                                 <tr>
                                     <td class="text-center">{{ $index + 1 }}</td>
                                     <td>{{ $item->nama_atasan ?? '-' }}</td>
-                                    <td>{{ $item->instansi ?? '-' }}</td>
+                                    <td>{{ $item->nama_instansi ?? '-' }}</td>
                                     <td>{{ $item->jabatan ?? '-' }}</td>
-                                    <td>{{ $item->no_hp ?? '-' }}</td>
-                                    <td>{{ $item->email ?? '-' }}</td>
+                                    <td>{{ $item->no_hp_atasan ?? '-' }}</td>
+                                    <td>{{ $item->email_atasan ?? '-' }}</td>
                                     <td>{{ $item->alumni->nama_alumni ?? '-' }}</td>
                                     <td>{{ $item->alumni->prodi ?? '-' }}</td>
                                     <td>{{ \Carbon\Carbon::parse($item->alumni->tanggal_lulus)->format('Y') }}</td>
