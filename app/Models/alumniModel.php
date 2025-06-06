@@ -10,7 +10,7 @@ class alumniModel extends Authenticatable
 {
     use HasFactory;
     protected $table = 'alumni';
-     protected $primaryKey = 'alumni_id';
+    protected $primaryKey = 'alumni_id';
     protected $fillable = [
         'user_id',
         'atasan_id',
@@ -25,11 +25,12 @@ class alumniModel extends Authenticatable
         'tanggal_lulus',
         'tanggal_kerja_pertama',
         'masa_tunggu',
+        'tangal_mulai_instansi',
         'nama_instansi',
         'skala_instansi',
         'lokasi_instansi',
         'otp_code',
-        'isOtp'
+        'isOtp',
     ];
 
     protected $casts = [
@@ -40,5 +41,10 @@ class alumniModel extends Authenticatable
     public function user()
     {
         return $this->belongsTo(userModel::class, 'user_id', 'user_id');
+    }
+
+    public function atasan()
+    {
+        return $this->belongsTo(AtasanModel::class, 'atasan_id');
     }
 }
