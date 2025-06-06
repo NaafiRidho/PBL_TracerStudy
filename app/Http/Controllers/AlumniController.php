@@ -8,6 +8,7 @@ use App\Models\instansiModel;
 use App\Models\Kategori_porfesiModel;
 use App\Models\profesiModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AlumniController extends Controller
 {
@@ -80,6 +81,9 @@ class AlumniController extends Controller
             $alumni->atasan_id = $atasan->atasan_id;
             $alumni->save();
         }
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return response()->json(['message' => 'Data alumni berhasil diperbarui']);
     }

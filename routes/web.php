@@ -46,6 +46,9 @@ Route::get('/login/email', [AuthOtpLoginController::class, 'showEmailForm'])->na
 Route::post('/login/email', [AuthOtpLoginController::class, 'sendOtp'])->name('otp.send');
 Route::get('/login/otp', [AuthOtpLoginController::class, 'showOtpForm'])->name('otp.verify.form');
 Route::post('/login/otp', [AuthOtpLoginController::class, 'verifyOtp'])->name('otp.verify');
+Route::get('/profesi/by-kategori/{kategori_profesi_id}', [AlumniController::class, 'byKategori']);
+Route::get('/survei', [PertanyaanController::class, 'getPertanyaan']);
+Route::post('/jawaban', [SurveiController::class, 'store']);
 
 Route::middleware(['auth:alumni', 'cek.alumni.login'])->group(function () {
     Route::get('/alumni/{id}', [AlumniController::class, 'index'])->name('alumni.form');
@@ -54,12 +57,7 @@ Route::middleware(['auth:alumni', 'cek.alumni.login'])->group(function () {
 });
 
 // ======== Survei Atasan =========
-Route::group(['prefix' => 'penggunaLulusan'], function () {
-    Route::get('/', [PenggunaLulusanController::class, 'index']);
-    Route::post('/store', [PenggunaLulusanController::class, 'store']);
+Route::middleware(['auth:atasan', 'cek.atasan.login'])->group(function () {
+    Route::get('/atasan/survei/{id}', [SurveiController::class, 'create'])->name('kuisioner');
+    // Route::post('/jawaban', [JawabanSurveiController::class, 'store']);
 });
-
-Route::get('/atasan/survei/{id}', [SurveiController::class, 'create']);
-Route::get('/survei', [PertanyaanController::class, 'getPertanyaan']);
-Route::post('/jawaban', [SurveiController::class, 'store']);
-// Route::post('/jawaban', [JawabanSurveiController::class, 'store']);

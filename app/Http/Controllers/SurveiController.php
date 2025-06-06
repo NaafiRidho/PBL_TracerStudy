@@ -7,6 +7,7 @@ use App\Models\PertanyaanModel;
 use App\Models\JawabanSurveiModel;
 use App\Models\AlumniModel;
 use App\Models\AtasanModel;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class SurveiController extends Controller
@@ -82,6 +83,9 @@ class SurveiController extends Controller
                 ]);
             }
 
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
             return response()->json([
                 'success' => true,
                 'message' => 'Survei berhasil disimpan.'
