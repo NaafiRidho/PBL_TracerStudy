@@ -12,6 +12,22 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
-        return $request->expectsJson() ? null : route('login');
+        if ($request->expectsJson()) {
+            return null;
+        }
+
+        if ($request->is('admin*')) {
+            return route('login');  // misal admin ke login biasa
+        }
+
+        if ($request->is('atasan*')) {
+            return route('otp.email.form'); // atasan ke form input email OTP
+        }
+
+        if ($request->is('alumni*')) {
+            return route('otp.email.form'); // alumni juga ke form input email OTP, atau ubah sesuai kebutuhan
+        }
+
+        return route('login');
     }
 }

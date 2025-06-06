@@ -7,12 +7,13 @@ use App\Mail\SendOtpMail;
 use App\Models\alumniModel;
 use App\Models\atasanModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class OtpLoginController extends Controller
 {
     /**
-     * Tampilkan form input email
+     * Tampilkan form input email.
      */
     public function showEmailForm()
     {
@@ -20,7 +21,7 @@ class OtpLoginController extends Controller
     }
 
     /**
-     * Kirim OTP ke email alumni atau atasan
+     * Kirim OTP ke email alumni atau atasan.
      */
     public function sendOtp(Request $request)
     {
@@ -58,7 +59,7 @@ class OtpLoginController extends Controller
     }
 
     /**
-     * Tampilkan form input OTP
+     * Tampilkan form input OTP.
      */
     public function showOtpForm()
     {
@@ -66,7 +67,7 @@ class OtpLoginController extends Controller
     }
 
     /**
-     * Verifikasi OTP
+     * Verifikasi OTP.
      */
     public function verifyOtp(Request $request)
     {
@@ -88,11 +89,15 @@ class OtpLoginController extends Controller
                 ->first();
 
             if ($alumni) {
-                // Tandai berhasil login via OTP
                 $alumni->isOtp = true;
                 $alumni->save();
 
-                session(['alumni_id' => $alumni->id]);
+                // Login alumni menggunakan guard 'alumni'
+                Auth::guard('alumni')->login($alumni);
+
+                // Simpan session jika perlu
+                session(['alumni_id' => $alumni->alumni_id]);
+
                 return redirect()->route('alumni.form', $alumni->alumni_id);
             }
         }
@@ -107,7 +112,10 @@ class OtpLoginController extends Controller
                 $atasan->isOtp = true;
                 $atasan->save();
 
-                session(['atasan_id' => $atasan->id]);
+                Auth::guard('atasan')->login($atasan);
+
+                session(['atasan_id' => $atasan->atasan_id]);
+
                 return redirect()->route('kuisioner', $atasan->atasan_id);
             }
         }
