@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 | Bisa ditambahkan middleware 'auth' dan 'role:admin' jika perlu.
 |
 */
+
 Route::get('/', [LoginController::class, 'showLoginForm']);
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
@@ -87,8 +88,12 @@ Route::group([
     Route::get('/alumni-belum-mengisi', [ExportController::class, 'showAlumniBelumMengisi'])->name('admin.alumni-belum');
     Route::get('/rekap/export/excel', [ExportController::class, 'exportExcel'])->name('admin.export.excel');
 
+    Route::get('/alumni-sudah-mengisi', [ExportController::class, 'showAlumni'])->name('admin.alumni-sudah');
+    Route::get('/rekap/export/alumni-sudah', [ExportController::class, 'exportExcelLulusan'])->name('rekap.export.sudah');
     // === Export Rekap Pengguna Lulusan belum Mengisi ===
     Route::get('/atasan/belum-mengisi', [ExportController::class, 'showAtasanBelumMengisi']);
     Route::get('/atasan/export/excel', [ExportController::class, 'exportExcelAtasanBelumMengisi']);
 
+    Route::get('/atasan-sudah-mengisi', [ExportController::class, 'showAtasan'])->name('atasan.sudahMengisi');
+    Route::get('/atasan/export/excel/sudah', [ExportController::class, 'exportExcelPenggunaSudahMengisi']);
 });
