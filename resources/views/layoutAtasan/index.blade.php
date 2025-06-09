@@ -41,10 +41,6 @@
 
         .invalid-feedback {
             display: none;
-            width: 100%;
-            margin-top: 0.25rem;
-            font-size: 0.875em;
-            color: #dc3545;
         }
 
         .was-validated .form-control:invalid,
@@ -88,11 +84,11 @@
 
                         <div class="row g-3">
                             <input type="hidden" name="alumni_id" value="{{ $alumni->alumni_id }}">
-                            <input type="hidden" name="atasan_id" value="{{ $alumni->atasan->atasan_id ?? '' }}">
-                            <input type="hidden" name="nama_atasan" value="{{ $alumni->atasan->nama_atasan ?? '' }}">
-                            <input type="hidden" name="email_atasan" value="{{ $alumni->atasan->email_atasan ?? '' }}">
-                            <input type="hidden" name="nama_instansi" value="{{ $alumni->atasan->nama_instansi ?? '' }}">
-                            <input type="hidden" name="jabatan_atasan" value="{{ $alumni->atasan->jabatan ?? '' }}">
+                            <input type="hidden" name="atasan_id" value="{{ $atasan->atasan_id ?? '' }}">
+                            <input type="hidden" name="nama_atasan" value="{{ $atasan->nama_atasan ?? '' }}">
+                            <input type="hidden" name="email_atasan" value="{{ $atasan->email_atasan ?? '' }}">
+                            <input type="hidden" name="nama_instansi" value="{{ $atasan->nama_instansi ?? '' }}">
+                            <input type="hidden" name="jabatan_atasan" value="{{ $atasan->jabatan ?? '' }}">
                             <input type="hidden" name="prodi" value="{{ $alumni->prodi }}">
                             <input type="hidden" name="tahun_lulus" value="{{ $alumni->formatted_tanggal_lulus }}">
 
@@ -102,19 +98,19 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Nama Atasan</label>
-                                <input type="text" class="form-control" value="{{ $alumni->atasan->nama_atasan ?? '' }}" readonly>
+                                <input type="text" class="form-control" value="{{ $atasan->nama_atasan ?? '-' }}" readonly>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Email Atasan</label>
-                                <input type="email" class="form-control" value="{{ $alumni->atasan->email_atasan ?? '' }}" readonly>
+                                <input type="email" class="form-control" value="{{ $atasan->email_atasan ?? '-' }}" readonly>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Instansi</label>
-                                <input type="text" class="form-control" value="{{ $alumni->atasan->nama_instansi ?? '' }}" readonly>
+                                <input type="text" class="form-control" value="{{ $atasan->nama_instansi ?? '-' }}" readonly>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Jabatan</label>
-                                <input type="text" class="form-control" value="{{ $alumni->atasan->jabatan ?? '' }}" readonly>
+                                <input type="text" class="form-control" value="{{ $atasan->jabatan ?? '-' }}" readonly>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Program Studi</label>
@@ -152,7 +148,7 @@
                     </fieldset>
 
                     <div class="d-flex justify-content-end mt-4">
-                        <button type="reset" class="btn btn-outline-secondary me-3">
+                        <button type="button" class="btn btn-outline-secondary me-3" id="resetForm">
                             <i class="fas fa-undo me-1"></i> Reset Form
                         </button>
                         <button type="submit" class="btn btn-success">
@@ -169,48 +165,42 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-            // Ambil pertanyaan dari database via AJAX
             $.get('{{ url('/survei') }}', function (getPertanyaan) {
                 let html = '';
                 getPertanyaan.forEach(function (q, idx) {
-                    // Use q.id if available, otherwise fallback to idx + 1
                     const idPertanyaan = q.id ?? idx + 1;
-
-                    // If it's the first 7 questions (indices 0-6)
-                    if (idx < 7) {
-                        const options = ['Kurang', 'Cukup', 'Baik', 'Sangat Baik'];
-                        html += `
-                            <div class="question-item">
-                                <div class="mb-3 row align-items-center">
-                                    <label class="col-md-4 col-form-label">${idx + 1}. ${q.pertanyaan}</label>
-                                    <div class="col-md-8 d-flex gap-3 flex-wrap">
-                                        ${options.map((label, i) => `
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" 
-                                                    name="jawaban[${idPertanyaan}]" 
-                                                    id="nilai_${idPertanyaan}_${i}" 
-                                                    value="${label}" required>
-                                                <label class="form-check-label" for="nilai_${idPertanyaan}_${i}">
-                                                    ${label}
-                                                </label>
-                                            </div>
-                                        `).join('')}
-                                    </div>
+                    const options = ['Kurang', 'Cukup', 'Baik', 'Sangat Baik'];
+                    html += `
+                        <div class="question-item">
+                            <div class="mb-3 row align-items-center">
+                                <label class="col-md-4 col-form-label">${idx + 1}. ${q.pertanyaan}</label>
+                                <div class="col-md-8 d-flex gap-3 flex-wrap">
+                                    ${options.map((label, i) => `
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio"
+                                                name="jawaban[${idPertanyaan}]"
+                                                id="nilai_${idPertanyaan}_${i}"
+                                                value="${label}" required>
+                                            <label class="form-check-label" for="nilai_${idPertanyaan}_${i}">
+                                                ${label}
+                                            </label>
+                                        </div>
+                                    `).join('')}
                                 </div>
                             </div>
-                        `;
-                    }
+                        </div>
+                    `;
                 });
-
                 $('#questions-container').html(html);
+            });
+
+            $('#resetForm').on('click', function () {
+                $('#formSurvei')[0].reset();
             });
 
             $('#formSurvei').on('submit', function (e) {
                 e.preventDefault();
-
                 const formData = new FormData(this);
-
-                // Disable the submit button to prevent double submission
                 const $submitBtn = $(this).find('button[type="submit"]');
                 $submitBtn.prop('disabled', true).text('Mengirim...');
 
@@ -238,14 +228,12 @@
                             for (const field in errors) {
                                 errorMessages.push(errors[field].join('\n'));
                             }
-                            alert('Validation errors:\n' + errorMessages.join('\n'));
+                            alert('Validasi gagal:\n' + errorMessages.join('\n'));
                         } else {
-                            console.error(xhr.responseText);
                             alert('Terjadi kesalahan saat mengirim survei.');
                         }
                     },
                     complete: function () {
-                        // Re-enable the submit button
                         $submitBtn.prop('disabled', false).text('Kirim Survei');
                     }
                 });

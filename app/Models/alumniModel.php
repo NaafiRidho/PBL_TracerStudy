@@ -45,6 +45,6 @@ class alumniModel extends Authenticatable
 
     public function atasan()
     {
-        return $this->belongsTo(AtasanModel::class, 'atasan_id');
+        return $this->belongsTo(AtasanModel::class, 'atasan_id', 'atasan_id');
     }
 }

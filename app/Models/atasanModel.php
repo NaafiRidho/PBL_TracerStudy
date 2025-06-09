@@ -3,16 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class AtasanModel extends Authenticatable
 {
     use HasFactory;
 
-    protected $table = 'atasan'; // nama tabel di database
-    protected $primaryKey = 'atasan_id'; // primary key tabel
-    public $timestamps = true; // jika tabel pakai created_at & updated_at
+    protected $table = 'atasan';
+    protected $primaryKey = 'atasan_id';
+    public $timestamps = true;
 
     protected $fillable = [
         'user_id',
@@ -22,4 +21,9 @@ class AtasanModel extends Authenticatable
         'email_atasan',
         'no_hp_atasan',
     ];
+
+    public function alumni()
+    {
+        return $this->hasMany(AlumniModel::class, 'atasan_id', 'atasan_id');
+    }
 }

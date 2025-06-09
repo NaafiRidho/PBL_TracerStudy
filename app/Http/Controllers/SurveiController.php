@@ -12,14 +12,20 @@ use Illuminate\Support\Facades\Log;
 
 class SurveiController extends Controller
 {
-    public function create($alumni_id)
+    public function create($atasan_id)
     {
-        $alumni = AlumniModel::with('atasan')->findOrFail($alumni_id);
-        $alumni->formatted_tanggal_lulus = \Carbon\Carbon::parse($alumni->tanggal_lulus)->format('d/m/Y');
-        $atasan = $alumni->atasan; // satu objek atasan, bukan collection
-        Log::info($atasan);
-        return view('layoutAtasan.index', compact('alumni', 'atasan'));
+        $atasan = AtasanModel::with('alumni')->findOrFail($atasan_id);
+        $alumni = AlumniModel::where('atasan_id', $atasan_id)->first();
+
+        if (!$alumni) {
+            abort(404, 'Data alumni tidak ditemukan.');
+        }
+
+        return view('layoutAtasan.index', compact('atasan', 'alumni'));
     }
+
+
+
 
     // Mengambil semua pertanyaan
     public function getPertanyaan()
