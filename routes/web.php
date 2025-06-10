@@ -47,7 +47,7 @@ Route::post('/login/email', [AuthOtpLoginController::class, 'sendOtp'])->name('o
 Route::get('/login/otp', [AuthOtpLoginController::class, 'showOtpForm'])->name('otp.verify.form');
 Route::post('/login/otp', [AuthOtpLoginController::class, 'verifyOtp'])->name('otp.verify');
 Route::get('/profesi/by-kategori/{kategori_profesi_id}', [AlumniController::class, 'byKategori']);
-Route::get('/survei', [PertanyaanController::class, 'getPertanyaan']);
+Route::get('/survei', [SurveiController::class, 'getPertanyaan']);
 Route::post('/jawaban', [SurveiController::class, 'store']);
 
 Route::middleware(['auth:alumni', 'cek.alumni.login'])->group(function () {

@@ -30,7 +30,7 @@ class SurveiController extends Controller
     // Mengambil semua pertanyaan
     public function getPertanyaan()
     {
-        $pertanyaan = PertanyaanModel::select('id', 'pertanyaan')->get();
+        $pertanyaan = PertanyaanModel::select('pertanyaan_id', 'pertanyaan')->whereNotIn('pertanyaan_id', [8, 9])->get();
         return response()->json($pertanyaan);
     }
 
