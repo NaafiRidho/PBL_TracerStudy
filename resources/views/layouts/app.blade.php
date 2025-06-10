@@ -1,69 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Dashboard - SB Admin</title>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+        <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- CSS Dependencies -->
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
-    <link href="{{ asset('/startbootstrap-sb-admin-gh-pages/css/styles.css') }}" rel="stylesheet" />
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- Font Awesome -->
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-</head>
-<body class="sb-nav-fixed">
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    </head>
+    <body class="font-sans antialiased">
+        <div class="min-h-screen bg-gray-100">
+            @include('layouts.navigation')
 
-    @include('layouts.navbar') <!-- Navbar -->
-    <div id="layoutSidenav">
-        @include('layouts.sidebar') <!-- Sidebar -->
+            <!-- Page Heading -->
+            @if (isset($header))
+                <header class="bg-white shadow">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                        {{ $header }}
+                    </div>
+                </header>
+            @endif
 
-        <div id="layoutSidenav_content">
+            <!-- Page Content -->
             <main>
-                @yield('content')
+                {{ $slot }}
             </main>
         </div>
-    </div>
-
-    @include('layouts.footer') <!-- Footer -->
-
-    <!-- JavaScript Dependencies (Order matters) -->
-    <!-- jQuery (wajib sebelum plugin lain) -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-    <!-- Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-
-    <!-- DataTables -->
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <!-- Simple DataTables (optional untuk datatables bawaan SB Admin) -->
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-
-    <!-- Chart.js & Demo -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="{{ asset('/startbootstrap-sb-admin-gh-pages/assets/demo/chart-area-demo.js') }}"></script>
-    <script src="{{ asset('/startbootstrap-sb-admin-gh-pages/assets/demo/chart-bar-demo.js') }}"></script>
-
-    <!-- Template Script -->
-    <script src="{{ asset('/startbootstrap-sb-admin-gh-pages/js/scripts.js') }}"></script>
-    <script src="{{ asset('/startbootstrap-sb-admin-gh-pages/js/datatables-simple-demo.js') }}"></script>
-
-    <!-- jQuery Validation -->
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-
-    @yield('scripts') <!-- Tambahan script per halaman -->
-</body>
+    </body>
 </html>

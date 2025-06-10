@@ -40,6 +40,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'alumni' => [
+            'driver' => 'session',
+            'provider' => 'alumni',
+        ],
+        'atasan' => [
+            'driver' => 'session',
+            'provider' => 'atasan',
+        ],
     ],
 
     /*
@@ -63,6 +71,14 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\userModel::class,
+        ],
+        'alumni' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\AlumniModel::class,
+        ],
+        'atasan' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\AtasanModel::class,
         ],
 
         // 'users' => [
