@@ -277,10 +277,7 @@
 </style>
 @endpush
 
-@push('scripts')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
-
+@push('js')
 <script>
 $(document).ready(function () {
     // --- AJAX CALL 1: Grafik dan Tabel Sebaran Jenis Instansi ---

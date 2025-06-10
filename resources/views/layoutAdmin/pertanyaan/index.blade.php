@@ -62,7 +62,7 @@
 </style>
 @endpush
 
-@section('scripts')
+@push('js')
 <script>
 $(document).ready(function () {
     window.dataPertanyaan = $('#tablePertanyaan').DataTable({
@@ -146,4 +146,4 @@ function deletePertanyaan(id) {
     });
 }
 </script>
-@endsection
+@endpush

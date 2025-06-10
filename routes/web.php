@@ -156,5 +156,3 @@ Route::group([
     Route::get('/atasan/export/excel/sudah', [ExportController::class, 'exportExcelPenggunaSudahMengisi']);
 });
 
-// Require Auth routes
-require __DIR__ . '/auth.php';
