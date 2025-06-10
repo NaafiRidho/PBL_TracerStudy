@@ -24,8 +24,8 @@ class ProfesiController extends Controller
                 return $row->kategori_profesi->kategori_profesi ?? '-';
             })
             ->addColumn('aksi', function ($profesi) {
-                $btn = '<button onclick="modalAction(\'' . url('/admin/' . $profesi->profesi_id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/admin/' . $profesi->profesi_id . '/delete_ajax') . '\')"  class="btn btn-danger btn-sm">Hapus</button> ';
+                $btn = '<button onclick="modalAction(\'' . url('/admin/profesi/' . $profesi->profesi_id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/admin/profesi/' . $profesi->profesi_id . '/delete_ajax') . '\')"  class="btn btn-danger btn-sm">Hapus</button> ';
                 return $btn;
             })
             ->rawColumns(['aksi']) //memberitahu bahwa kolomaksi adalah html
