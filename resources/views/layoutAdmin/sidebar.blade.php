@@ -1,5 +1,12 @@
 <div id="layoutSidenav_nav">
     <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+        <div class="sb-sidenav-header d-flex flex-column align-items-center"
+            style="padding-top: 0.3rem; padding-bottom: 0.3rem;">
+            <img class="logo-animated" src="{{ asset('startbootstrap-sb-admin-gh-pages/assets/img/logoTC.png') }}"
+                alt="Logo" style="height: 80px; margin-right: 5px;">
+            <div class="text-white fw-semibold" style="font-size: 1.1rem;">Admin Panel</div>
+            <div class="text-muted" style="font-size: 0.85rem;">Teknologi Informasi</div>
+        </div>
         <div class="sb-sidenav-menu">
             <div class="nav">
                 <div class="sb-sidenav-menu-heading">Core</div>
@@ -70,58 +77,82 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-briefcase"></i></div>
                     Pertanyaan
                 </a>
-
-                <div class="sb-sidenav-menu-heading">Interface</div>
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
-                    aria-expanded="false" aria-controls="collapseLayouts">
-                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                    Layouts
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
-                <div class="collapse" id="collapseLayouts" data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="#">Static Navigation</a>
-                        <a class="nav-link" href="#">Light Sidenav</a>
-                    </nav>
-                </div>
-
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
-                    aria-expanded="false" aria-controls="collapsePages">
-                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                    Pages
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
-                <div class="collapse" id="collapsePages" data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                            data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                            Authentication
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="pagesCollapseAuth" data-bs-parent="#sidenavAccordionPages">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="{{ url('login') }}">Login</a>
-                                <a class="nav-link" href="{{ url('register') }}">Register</a>
-                                <a class="nav-link" href="{{ url('password/reset') }}">Forgot Password</a>
-                            </nav>
-                        </div>
-                    </nav>
-                </div>
-
-                <div class="sb-sidenav-menu-heading">Addons</div>
-                <a class="nav-link" href="#">
-                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                    Charts
-                </a>
-                <a class="nav-link" href="#">
-                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                    Tables
-                </a>
             </div>
         </div>
         <div class="sb-sidenav-footer">
             <div class="small">Logged in as:</div>
-            Start Bootstrap
+            Tracer Study Admin
         </div>
     </nav>
 </div>
+
+<style>
+    .sb-nav-fixed .sb-topnav {
+        z-index: 1000;
+        /* Lebih rendah dari sidebar */
+        position: fixed;
+        top: 0;
+        width: 100%;
+    }
+
+    #layoutSidenav #layoutSidenav_nav {
+        z-index: 1050;
+        /* Lebih tinggi dari navbar */
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+    }
+
+    /* Terapkan font ke seluruh sidebar */
+    .sb-sidenav {
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .sb-sidenav-menu-heading {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #a0aec0;
+        text-transform: uppercase;
+        padding: 1rem 1.5rem 0.5rem;
+    }
+
+    .nav-link {
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #cbd5e0;
+        /* abu-abu terang */
+        border-left: 4px solid transparent;
+        transition: all 0.3s ease;
+        border-radius: 0.375rem;
+        padding-left: 1.5rem;
+        white-space: nowrap;
+        /* Mencegah teks turun ke baris baru */
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .nav-link:hover {
+        background-color: #2d3748;
+        /* abu gelap */
+        color: #ffffff;
+        border-left: 4px solid #3b82f6;
+        /* biru */
+    }
+
+    .nav-link.active {
+        background-color: #1e293b;
+        color: #ffffff;
+        font-weight: 600;
+        border-left: 4px solid #3b82f6;
+    }
+
+    .sb-sidenav-footer {
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #cbd5e0;
+        padding: 1rem 1.5rem;
+    }
+</style>

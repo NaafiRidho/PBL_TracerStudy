@@ -10924,7 +10924,7 @@ body {
   z-index: 1038;
 }
 .sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav {
-  padding-top: 56px;
+  padding-top: 5px;
 }
 .sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav .sb-sidenav-menu {
   overflow-y: auto;
