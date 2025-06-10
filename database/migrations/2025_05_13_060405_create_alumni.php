@@ -30,6 +30,8 @@ return new class extends Migration
             $table->string('nama_instansi')->nullable();
             $table->enum('skala_instansi',['international','nasional','wirausaha'])->nullable();
             $table->string('lokasi_instansi')->nullable();
+            $table->string('otp_code')->nullable(); // Kode OTP
+            $table->boolean('isOtp')->default(false); //mengecek apakah otp sudah terpakai apa belum
             $table->timestamps();
 
             $table->foreign('user_id')->references('user_id')->on('user');

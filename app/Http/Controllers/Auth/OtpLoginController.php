@@ -6,14 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Mail\SendOtpMail;
 use App\Models\alumniModel;
 use App\Models\atasanModel;
-use App\Models\Otp;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class OtpLoginController extends Controller
 {
     /**
-     * Tampilkan form input email
+     * Tampilkan form input email.
      */
     public function showEmailForm()
     {
@@ -21,7 +21,7 @@ class OtpLoginController extends Controller
     }
 
     /**
-     * Kirim OTP ke email alumni atau atasan
+     * Kirim OTP ke email alumni atau atasan.
      */
     public function sendOtp(Request $request)
     {
@@ -29,8 +29,8 @@ class OtpLoginController extends Controller
 
         $email = $request->email;
 
-        $alumni = alumniModel::where('email', $email)->first();
-        $atasan = atasanModel::where('email_atasan', $email)->first();
+        $alumni = alumniModel::where('email', $email)->where('isOtp', false)->first();
+        $atasan = atasanModel::where('email_atasan', $email)->where('isOtp', false)->first();
 
         if (!$alumni && !$atasan) {
             return back()->withErrors(['email' => 'Email tidak terdaftar sebagai alumni atau atasan.']);
@@ -38,10 +38,15 @@ class OtpLoginController extends Controller
 
         $otp = rand(100000, 999999);
 
-        Otp::updateOrCreate(
-            ['email' => $email],
-            ['otp_code' => $otp]
-        );
+        if ($alumni) {
+            $alumni->otp_code = $otp;
+            $alumni->save();
+        }
+
+        if ($atasan) {
+            $atasan->otp_code = $otp;
+            $atasan->save();
+        }
 
         Mail::to($email)->send(new SendOtpMail($otp));
 
@@ -54,7 +59,7 @@ class OtpLoginController extends Controller
     }
 
     /**
-     * Tampilkan form input OTP
+     * Tampilkan form input OTP.
      */
     public function showOtpForm()
     {
@@ -62,7 +67,7 @@ class OtpLoginController extends Controller
     }
 
     /**
-     * Verifikasi OTP
+     * Verifikasi OTP.
      */
     public function verifyOtp(Request $request)
     {
@@ -73,30 +78,48 @@ class OtpLoginController extends Controller
         $email = session('otp_email');
         $role = session('otp_role');
 
-        $otp = Otp::where('email', $email)
-            ->where('otp_code', $request->otp_code)
-            ->first();
-
-        if (!$otp) {
-            return back()->withErrors(['otp_code' => 'Kode OTP salah atau sudah kadaluarsa.']);
+        if (!$email || !$role) {
+            return redirect()->route('otp.email.form')->withErrors(['email' => 'Session expired. Silakan kirim ulang OTP.']);
         }
 
-        // Hapus OTP setelah berhasil login
-        $otp->delete();
-
-        // Redirect berdasarkan role
         if ($role === 'alumni') {
-            $alumni = alumniModel::where('email', $email)->first();
-            session(['alumni_id' => $alumni->id]);
-            return redirect()->route('alumni.form', $alumni->alumni_id);
+            $alumni = alumniModel::where('email', $email)
+                ->where('otp_code', $request->otp_code)
+                ->where('isOtp', false)
+                ->first();
+
+            if ($alumni) {
+                $alumni->isOtp = true;
+                $alumni->save();
+
+                // Login alumni menggunakan guard 'alumni'
+                Auth::guard('alumni')->login($alumni);
+
+                // Simpan session jika perlu
+                session(['alumni_id' => $alumni->alumni_id]);
+
+                return redirect()->route('alumni.form', $alumni->alumni_id);
+            }
         }
 
         if ($role === 'atasan') {
-            $atasan = atasanModel::where('email', $email)->first();
-            session(['atasan_id' => $atasan->id]);
-            return redirect()->route('kuisioner', $atasan->id);
+            $atasan = atasanModel::where('email_atasan', $email)
+                ->where('otp_code', $request->otp_code)
+                ->where('isOtp', false)
+                ->first();
+
+            if ($atasan) {
+                $atasan->isOtp = true;
+                $atasan->save();
+
+                Auth::guard('atasan')->login($atasan);
+
+                session(['atasan_id' => $atasan->atasan_id]);
+
+                return redirect()->route('kuisioner', $atasan->atasan_id);
+            }
         }
 
-        return redirect('/')->withErrors(['login' => 'Role tidak dikenali.']);
+        return back()->withErrors(['otp_code' => 'Kode OTP salah atau sudah tidak berlaku.']);
     }
 }

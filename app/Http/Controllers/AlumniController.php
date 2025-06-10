@@ -8,6 +8,7 @@ use App\Models\instansiModel;
 use App\Models\Kategori_porfesiModel;
 use App\Models\profesiModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AlumniController extends Controller
 {
@@ -24,16 +25,8 @@ class AlumniController extends Controller
     {
         $alumni = alumniModel::findOrFail($id);
         return response()->json([
-            'alumni' => [
-                'nim' => $alumni->nim,
-                'nama' => $alumni->nama_alumni,
-                'prodi' => $alumni->prodi,
-                'tanggal_lulus' => $alumni->tanggal_lulus,
-                'jenis_instansi_id' => $alumni->jenis_instansi_id,
-                'kategori_profesi_id' => $alumni->kategori_profesi_id,
-                'profesi_id' => $alumni->profesi_id,
-            ]
-        ]);
+        'alumni' => $alumni
+    ]);
     }
     public function byKategori($kategori_profesi_id)
     {
@@ -88,6 +81,9 @@ class AlumniController extends Controller
             $alumni->atasan_id = $atasan->atasan_id;
             $alumni->save();
         }
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return response()->json(['message' => 'Data alumni berhasil diperbarui']);
     }

@@ -3,22 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class atasanModel extends Model
+class AtasanModel extends Authenticatable
 {
     use HasFactory;
-    // Nama tabel jika tidak mengikuti konvensi plural
+
     protected $table = 'atasan';
-
-    // Primary key bukan 'id', jadi perlu didefinisikan
     protected $primaryKey = 'atasan_id';
+    public $timestamps = true;
 
-    // Jika primary key bukan auto-increment integer, tambahkan:
-    // public $incrementing = true;
-    // protected $keyType = 'int';
-
-    // Field yang boleh diisi mass-assignment
     protected $fillable = [
         'user_id',
         'nama_atasan',
@@ -28,9 +22,8 @@ class atasanModel extends Model
         'no_hp_atasan',
     ];
 
-    // Relasi ke tabel user (asumsinya modelnya User)
-    public function user()
+    public function alumni()
     {
-        return $this->belongsTo(User::class, 'user_id', 'user_id');
+        return $this->hasMany(AlumniModel::class, 'atasan_id', 'atasan_id');
     }
 }

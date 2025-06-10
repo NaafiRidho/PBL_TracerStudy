@@ -129,4 +129,14 @@ class PertanyaanController extends Controller
 
         return redirect('/');
     }
+
+    // Tambahkan di PertanyaanController
+    public function getPertanyaan()
+    {
+        // Ambil semua data dari model Pertanyaan
+        $data = PertanyaanModel::all();
+
+        // Kembalikan data dalam format JSON
+        return response()->json($data);
+    }
 }
