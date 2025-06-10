@@ -39,9 +39,13 @@
                                     <td>{{ $item->jabatan ?? '-' }}</td>
                                     <td>{{ $item->no_hp_atasan ?? '-' }}</td>
                                     <td>{{ $item->email_atasan ?? '-' }}</td>
-                                    <td>{{ $item->alumni->nama_alumni ?? '-' }}</td>
-                                    <td>{{ $item->alumni->prodi ?? '-' }}</td>
-                                    <td>{{ $item->alumni ? \Carbon\Carbon::parse($item->alumni->tanggal_lulus)->format('Y') : '-' }}</td>
+                                    {{-- PERBAIKAN DI SINI: Gunakan ->first() untuk mendapatkan objek Alumni --}}
+                                    <td>{{ $item->alumni->first()->nama_alumni ?? '-' }}</td>
+                                    <td>{{ $item->alumni->first()->prodi ?? '-' }}</td>
+                                    <td>
+                                        {{-- PERBAIKAN DI SINI: Pastikan Anda mengakses alumni->first() sebelum tanggal_lulus --}}
+                                        {{ optional(optional($item->alumni->first())->tanggal_lulus)->format('Y') ?? '-' }}
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>

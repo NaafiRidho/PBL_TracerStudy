@@ -216,7 +216,7 @@ class ExportController extends Controller
     public function showAtasanBelumMengisi()
     {
         // Ambil data atasan yang alumni-nya belum mengisi (isOTP = 0)
-        $atasan = AtasanModel::where('isOtp', 0)->with('alumni')->get();
+        $atasan = atasanModel::where('isOtp', 0)->with('alumni')->get();
 
         return view('layoutAdmin.rekap.export_rekap_atasan_belum_mengisi', compact('atasan'));
     }

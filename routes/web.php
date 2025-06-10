@@ -45,6 +45,7 @@ Route::post('/login/otp', [AuthOtpLoginController::class, 'verifyOtp'])->name('o
 // Publicly accessible survey question retrieval (assuming this doesn't require login)
 Route::get('/survei', [SurveiController::class, 'getPertanyaan']);
 Route::post('/jawaban', [SurveiController::class, 'store']); // Endpoint to store survey answers
+Route::get('/profesi/by-kategori/{kategori_profesi_id}', [AlumniController::class, 'byKategori']); // Moved here as it seems related to alumni profiles
 
 // --- Alumni Routes (Authenticated) ---
 Route::middleware(['auth:alumni', 'cek.alumni.login'])->group(function () {
@@ -55,7 +56,6 @@ Route::middleware(['auth:alumni', 'cek.alumni.login'])->group(function () {
     Route::get('/alumni/{id}', [AlumniController::class, 'index'])->name('alumni.form');
     Route::get('/alumni/list/{id}', [AlumniController::class, 'list']);
     Route::put('/alumni/update/{id}', [AlumniController::class, 'update']);
-    Route::get('/profesi/by-kategori/{kategori_profesi_id}', [AlumniController::class, 'byKategori']); // Moved here as it seems related to alumni profiles
 
     // Profile Management
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

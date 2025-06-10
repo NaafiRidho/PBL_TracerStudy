@@ -39,9 +39,13 @@
                                     <td>{{ $item->jabatan ?? '-' }}</td>
                                     <td>{{ $item->no_hp_atasan ?? '-' }}</td>
                                     <td>{{ $item->email_atasan ?? '-' }}</td>
-                                    <td>{{ $item->alumni->nama_alumni ?? '-' }}</td>
-                                    <td>{{ $item->alumni->prodi ?? '-' }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($item->alumni->tanggal_lulus)->format('Y') }}</td>
+                                    {{-- Perbaikan ada di baris-baris berikut --}}
+                                    <td>{{ $item->alumni->first()->nama_alumni ?? '-' }}</td>
+                                    <td>{{ $item->alumni->first()->prodi ?? '-' }}</td>
+                                    <td>
+                                        {{-- Menggunakan optional() untuk menghindari error jika tanggal_lulus null --}}
+                                        {{ optional(optional($item->alumni->first())->tanggal_lulus)->format('Y') ?? '-' }}
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
