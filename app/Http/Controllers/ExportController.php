@@ -258,23 +258,38 @@ class ExportController extends Controller
             $sheet->getColumnDimension(Coordinate::stringFromColumnIndex($index + 1))->setWidth($width);
         }
 
-        // Ambil data atasan yang alumni-nya belum mengisi
+        // Ambil data atasan yang alumni-nya belum mengisi OTP
         $atasanList = AtasanModel::where('isOtp', 0)->with('alumni')->get();
 
         $row = 2;
         foreach ($atasanList as $item) {
-            $sheet->setCellValue("A$row", $item->nama_atasan ?? '-');
-            $sheet->setCellValue("B$row", $item->nama_instansi ?? '-');
-            $sheet->setCellValue("C$row", $item->jabatan ?? '-');
-            $sheet->setCellValue("D$row", $item->no_hp_atasan ?? '-');
-            $sheet->setCellValue("E$row", $item->email_atasan ?? '-');
-            $sheet->setCellValue("F$row", $item->alumni->nama_alumni ?? '-');
-            $sheet->setCellValue("G$row", $item->alumni->prodi ?? '-');
-            $sheet->setCellValue("H$row", $item->alumni ? Carbon::parse($item->alumni->tanggal_lulus)->format('Y') : '-');
-            $row++;
+            if ($item->alumni->isNotEmpty()) {
+                foreach ($item->alumni as $alumni) {
+                    $sheet->setCellValue("A$row", $item->nama_atasan ?? '-');
+                    $sheet->setCellValue("B$row", $item->nama_instansi ?? '-');
+                    $sheet->setCellValue("C$row", $item->jabatan ?? '-');
+                    $sheet->setCellValue("D$row", $item->no_hp_atasan ?? '-');
+                    $sheet->setCellValue("E$row", $item->email_atasan ?? '-');
+                    $sheet->setCellValue("F$row", $alumni->nama_alumni ?? '-');
+                    $sheet->setCellValue("G$row", $alumni->prodi ?? '-');
+                    $sheet->setCellValue("H$row", $alumni->tanggal_lulus ? \Carbon\Carbon::parse($alumni->tanggal_lulus)->format('Y') : '-');
+                    $row++;
+                }
+            } else {
+                // Jika atasan tidak memiliki alumni terkait
+                $sheet->setCellValue("A$row", $item->nama_atasan ?? '-');
+                $sheet->setCellValue("B$row", $item->nama_instansi ?? '-');
+                $sheet->setCellValue("C$row", $item->jabatan ?? '-');
+                $sheet->setCellValue("D$row", $item->no_hp_atasan ?? '-');
+                $sheet->setCellValue("E$row", $item->email_atasan ?? '-');
+                $sheet->setCellValue("F$row", '-');
+                $sheet->setCellValue("G$row", '-');
+                $sheet->setCellValue("H$row", '-');
+                $row++;
+            }
         }
 
-        // Rata kiri semua data dari A2 ke bawah
+        // Rata kiri semua data dari A2 ke baris terakhir
         $sheet->getStyle("A2:H" . ($row - 1))
             ->getAlignment()
             ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
@@ -289,6 +304,7 @@ class ExportController extends Controller
             'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         ]);
     }
+
     public function exportExcelPenggunaSudahMengisi()
     {
         $spreadsheet = new Spreadsheet();
