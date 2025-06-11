@@ -80,7 +80,7 @@ class ManajemenAlumniController extends Controller
                         }
 
                         // Cek duplikat user
-                        $existingUser = userModel::where('username', $nim)->first();
+                        $existingUser = alumniModel::where('nim', $nim)->first();
                         if ($existingUser) {
                             $failed_rows[] = "Baris $rowNumber: NIM $nim sudah ada";
                             continue;
