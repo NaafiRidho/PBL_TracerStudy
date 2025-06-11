@@ -7,22 +7,30 @@ use App\Models\PertanyaanModel;
 use App\Models\JawabanSurveiModel;
 use App\Models\AlumniModel;
 use App\Models\AtasanModel;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class SurveiController extends Controller
 {
     public function create($atasan_id)
-    {
-        $atasan = AtasanModel::with('alumni')->findOrFail($atasan_id);
-        $alumni = AlumniModel::where('atasan_id', $atasan_id)->first();
+{
+    $atasan = AtasanModel::with('alumni')->findOrFail($atasan_id);
+    $alumni = AlumniModel::where('atasan_id', $atasan_id)->first();
 
-        if (!$alumni) {
-            abort(404, 'Data alumni tidak ditemukan.');
-        }
-
-        return view('layoutAtasan.index', compact('atasan', 'alumni'));
+    if (!$alumni) {
+        abort(404, 'Data alumni tidak ditemukan.');
     }
+
+    // Pastikan formatted_tanggal_lulus tersedia
+    if (!$alumni->formatted_tanggal_lulus) {
+        $alumni->formatted_tanggal_lulus = $alumni->tanggal_lulus
+            ? Carbon::parse($alumni->tanggal_lulus)->format('d-m-Y')
+            : '-';
+    }
+
+    return view('layoutAtasan.index', compact('atasan', 'alumni'));
+}
 
 
 
