@@ -163,83 +163,83 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $.get('{{ url('/survei') }}', function (getPertanyaan) {
-                let html = '';
-                getPertanyaan.forEach(function (q, idx) {
-                    const idPertanyaan = q.id ?? idx + 1;
-                    const options = ['Kurang', 'Cukup', 'Baik', 'Sangat Baik'];
-                    html += `
-                        <div class="question-item">
-                            <div class="mb-3 row align-items-center">
-                                <label class="col-md-4 col-form-label">${idx + 1}. ${q.pertanyaan}</label>
-                                <div class="col-md-8 d-flex gap-3 flex-wrap">
-                                    ${options.map((label, i) => `
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio"
-                                                name="jawaban[${idPertanyaan}]"
-                                                id="nilai_${idPertanyaan}_${i}"
-                                                value="${label}" required>
-                                            <label class="form-check-label" for="nilai_${idPertanyaan}_${i}">
-                                                ${label}
-                                            </label>
-                                        </div>
-                                    `).join('')}
-                                </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    $(document).ready(function () {
+        $.get('{{ url('/survei') }}', function (getPertanyaan) {
+            let html = '';
+            getPertanyaan.forEach(function (q, idx) {
+                const idPertanyaan = q.id ?? idx + 1;
+                const options = ['Kurang', 'Cukup', 'Baik', 'Sangat Baik'];
+                html += `
+                    <div class="question-item">
+                        <div class="mb-3 row align-items-center">
+                            <label class="col-md-4 col-form-label">${idx + 1}. ${q.pertanyaan}</label>
+                            <div class="col-md-8 d-flex gap-3 flex-wrap">
+                                ${options.map((label, i) => `
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio"
+                                            name="jawaban[${idPertanyaan}]"
+                                            id="nilai_${idPertanyaan}_${i}"
+                                            value="${label}" required>
+                                        <label class="form-check-label" for="nilai_${idPertanyaan}_${i}">
+                                            ${label}
+                                        </label>
+                                    </div>
+                                `).join('')}
                             </div>
                         </div>
-                    `;
-                });
-                $('#questions-container').html(html);
+                    </div>
+                `;
             });
+            $('#questions-container').html(html);
+        });
 
-            $('#resetForm').on('click', function () {
-                $('#formSurvei')[0].reset();
-            });
+        $('#resetForm').on('click', function () {
+            $('#formSurvei')[0].reset();
+            $('#questions-container input[type=radio]').prop('checked', false);
+        });
 
-            $('#formSurvei').on('submit', function (e) {
-                e.preventDefault();
-                const formData = new FormData(this);
-                const $submitBtn = $(this).find('button[type="submit"]');
-                $submitBtn.prop('disabled', true).text('Mengirim...');
+        $('#formSurvei').on('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const $submitBtn = $(this).find('button[type="submit"]');
+            $submitBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-1"></i> Mengirim...');
 
-                $.ajax({
-                    url: "{{ url('/jawaban') }}",
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function (res) {
-                        if (res.success) {
-                            alert(res.message);
-                            window.location.href = "{{ url('/thank-you') }}";
-                        } else {
-                            alert(res.message || 'Gagal menyimpan survei.');
-                        }
-                    },
-                    error: function (xhr) {
-                        const errors = xhr.responseJSON?.errors;
-                        if (errors) {
-                            let errorMessages = [];
-                            for (const field in errors) {
-                                errorMessages.push(errors[field].join('\n'));
-                            }
-                            alert('Validasi gagal:\n' + errorMessages.join('\n'));
-                        } else {
-                            alert('Terjadi kesalahan saat mengirim survei.');
-                        }
-                    },
-                    complete: function () {
-                        $submitBtn.prop('disabled', false).text('Kirim Survei');
-                    }
-                });
+            $.ajax({
+                url: "{{ url('/jawaban') }}",
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: 'Terima kasih telah mengisi survei.',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        window.location.href = "{{ url('/landingpage') }}";
+                    });
+                },
+                error: function (xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal!',
+                        text: xhr.responseJSON?.message || 'Terjadi kesalahan saat mengirim survei.',
+                        confirmButtonText: 'OK'
+                    });
+                },
+                complete: function () {
+                    $submitBtn.prop('disabled', false).html('<i class="fas fa-paper-plane me-1"></i> Kirim Survei');
+                }
             });
         });
-    </script>
+    });
+</script>
 </body>
 
 </html>

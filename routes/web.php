@@ -39,7 +39,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 //landing page
 Route::get('/landingpage',function(){
     return view('layoutLandingPage.hero');
-});
+})->name('landingpage');
 // OTP Login Routes
 Route::get('/login/email', [AuthOtpLoginController::class, 'showEmailForm'])->name('otp.email.form');
 Route::post('/login/email', [AuthOtpLoginController::class, 'sendOtp'])->name('otp.send');

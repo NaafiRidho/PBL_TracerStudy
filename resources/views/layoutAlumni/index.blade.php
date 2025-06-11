@@ -364,7 +364,7 @@ $(document).ready(function () {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         @php
-                        $baseUrl = url('/login/email');
+                        $baseUrl = url('/landingpage');
                         @endphp
                         const fullUrl = "{{ $baseUrl }}";
                         window.location.href = fullUrl;
