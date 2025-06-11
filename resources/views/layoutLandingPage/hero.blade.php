@@ -13,10 +13,10 @@
                     Mari bersama-sama meningkatkan kualitas pendidikan melalui partisipasi Anda dalam tracer study kami.
                 </p>
                 <div class="d-flex flex-wrap gap-3 animate__animated animate__fadeInUp animate__delay-1s">
-                    <a href="#" class="btn btn-light rounded-pill px-4 py-3 fw-bold shadow-sm hover-scale" style="color: #004aad;">
+                    <a href="/login/email" class="btn btn-light rounded-pill px-4 py-3 fw-bold shadow-sm hover-scale" style="color: #004aad;">
                         <i class="fas fa-user-graduate me-2"></i> Isi Tracer Alumni
                     </a>
-                    <a href="/kuesioner" class="btn btn-outline-light rounded-pill px-4 py-3 fw-bold hover-scale border-2">
+                    <a href="/login/email" class="btn btn-outline-light rounded-pill px-4 py-3 fw-bold hover-scale border-2">
                         <i class="fas fa-building me-2"></i> Tracer Stakeholder
                     </a>
                 </div>
